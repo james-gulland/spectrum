@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from .models import Mixtape
 from .serializers.common import MixtapeSerializer
 from .serializers.populated import PopulatedMixtapeSerializer
@@ -11,6 +12,7 @@ from lib.exceptions import exceptions
 
 # view is for /api/mixtapes/
 class MixtapeListView(APIView):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     
     # GET all mixtapes
     def get(self, request):
@@ -41,6 +43,7 @@ class MixtapeListView(APIView):
 
 # view is for /api/mixtapes/:pk
 class MixtapeDetailView(APIView):
+    permission_classes = (IsAuthenticated,)
     
     # GET a single mixtape
     @exceptions

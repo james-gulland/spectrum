@@ -1,9 +1,12 @@
 from functools import wraps
 from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError, NotFound
+from rest_framework.exceptions import ValidationError, NotFound, PermissionDenied
 from rest_framework import status
 from django.core.exceptions import ImproperlyConfigured
 from mixtapes.models import Mixtape
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # decorator function to be used across site for error handling, wraps around existing function
 def exceptions(func):
@@ -12,7 +15,11 @@ def exceptions(func):
 
     def wrapper(*args, **kwargs):
         try:
-            return func(*args, **kwargs)         
+            return func(*args, **kwargs)
+        except (User.DoesNotExist, PermissionDenied) as e:
+            print('EXCEPTION OCCURED ->', e.__class__.__name__)
+            print(e)
+            return Response({ 'detail': 'Unauthorised' }, status.HTTP_403_FORBIDDEN) 
         except (NotFound, Mixtape.DoesNotExist) as e:
             print('EXCEPTION OCCURED ->', e.__class__.__name__)
             print(e)
