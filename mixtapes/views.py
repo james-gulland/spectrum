@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.exceptions import PermissionDenied
+
 from .models import Mixtape
 from .serializers.common import MixtapeSerializer
 from .serializers.populated import PopulatedMixtapeSerializer
@@ -33,6 +35,11 @@ class MixtapeListView(APIView):
         # debug mode on
         print('POST api/mixtapes/ endpoint hit')
 
+        # populating the owner data without having to specify in the request
+        # print('REQUEST USER ID ->', request.user.id)
+        request.data['owner'] = request.user.id
+        # print('REQUEST DATA ->', request.data)
+
         # deserializing data to send back to db, checking it, and then saving
         mixtape = MixtapeSerializer(data=request.data)
         mixtape.is_valid(raise_exception=True)
@@ -57,6 +64,9 @@ class MixtapeDetailView(APIView):
     @exceptions
     def put(self, request, pk):
         mixtape = Mixtape.objects.get(pk=pk)
+
+        if mixtape.owner != request.user:
+            raise PermissionDenied()
         
         # deserialize data and enable partial updates, validating, and saving
         serialized_mixtape = MixtapeSerializer(mixtape, request.data, partial=True)
@@ -69,6 +79,11 @@ class MixtapeDetailView(APIView):
     @exceptions
     def delete(self, request, pk):
         mixtape = Mixtape.objects.get(pk=pk)
+        # print('MIXTAPE OWNER ->', mixtape.owner)
+        # print('REQUESR USER ->', request.user)
+        # print('MATCH? ->', request.user == mixtape.owner)
+        if mixtape.owner != request.user:
+            raise PermissionDenied()
         mixtape.delete() # that was easy :)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
