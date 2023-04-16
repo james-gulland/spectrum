@@ -23,9 +23,13 @@ $shadow: .3rem .3rem .6rem var(--greyLight-2),
 $inner-shadow: inset .2rem .2rem .5rem var(--greyLight-2), 
 inset -.2rem -.2rem .5rem var(--white);
 
+$brand-font: "AtAmiga-Regular";
+$main-font: "Poppins", sans-serif;
 
-h1, h2 {
-  font-family: "AtAmiga-Regular";
+
+h1 {
+  font-family: $brand-font;
+  text-shadow:0 -1px 1px rgba(0,0,0,0.5);
   // font-size: 2em;
   font-size: 2em;
   // color: white;
@@ -47,5 +51,8 @@ h1, h2 {
 }
 
 h2 {
+  font-size: 1.5em;
+  text-align: start;
+  margin: 0 3em;
   color: var(--primary-dark)
 }

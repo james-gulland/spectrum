@@ -1,0 +1,65 @@
+// OVERALL CONTAINERS ON MAIN
+#control-container, #grid-container {
+  margin: 2rem 3rem;
+  padding: 1rem;
+}
+
+#control-container {
+  border-radius: 3rem;
+  box-shadow: $container-shadow;
+}
+
+// MAIN CONTAINER of CONTROLS - 3 column width
+#control-main-container {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  gap: 1rem;
+  padding: 0 1rem;
+
+  // LEFT - artwork
+  #control-artwork-container > img {
+    width: 100%;
+  }
+
+  // MIDDLE - LED and mood controls
+  #control-led-container {
+    display: grid;
+
+    #mood-controls {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin: 0 auto;
+    }
+  }
+}
+
+// GRID UNDERNEATH CONTROLS
+#grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5em;
+  text-align: center;
+}
+
+.mixtape-card {
+  min-height: 8rem;
+  // border: 1px solid black;
+  display: grid;
+  border-radius: 1rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  overflow: hidden;
+  background-color: var(--greyLight-1);
+  box-shadow: $shadow;
+  // box-shadow: $inner-shadow;
+
+  &.checked {
+      box-shadow: $inner-shadow;
+  }
+
+  #mixtape-card-artwork {
+    background-size: cover;
+    background-position: left;
+    background-repeat: no-repeat;
+  }
+}
