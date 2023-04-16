@@ -1,16 +1,22 @@
-import { useEffect } from 'react'
-import axios from 'axios'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from './components/Home'
+// import Add from './components/Add'
 
 const App = () => {
-  useEffect(() => {
-    const getData = async () => {
-      const { data } = await axios.get('/api/mixtapes/')
-      console.log(data)
-    }
-    getData()
-  })
 
-  return <h1>Hello World</h1>
+  return (
+    <div className='site-wrapper'>
+        
+      <BrowserRouter>
+        {/* Any element inside of BrowserRouter, but outside of Routes can use the Link and will still be visible on every page */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          {/* <Route path="/add" element={<Add />} /> */}
+        </Routes>
+      </BrowserRouter>
+    </div>
+  )
+
 }
 
 export default App

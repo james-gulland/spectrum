@@ -1,3 +1,16 @@
+@import 'components/variables';
+@import 'components/layout-home';
+@import 'components/controls';
+
 * {
   box-sizing: border-box;
+}
+
+.site-wrapper {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+body {
+  background-color: var(--greyLight-1);
 }

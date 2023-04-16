@@ -1,0 +1,51 @@
+@font-face {
+  font-family: "AtAmiga-Regular";
+  src: local("AtAmiga-Regular"),
+    url("../../fonts/AtAmiga-Regular.woff")
+  }
+
+:root {
+  --primary-light: #8abdff;
+  --primary: #6d5dfc;
+  --primary-dark: #5b0eeb;
+  
+  --white: #FFFFFF;
+  --greyLight-1: #E4EBF5;
+  --greyLight-2: #c8d0e7;
+  --greyLight-3: #bec8e4;
+  --greyDark: #9baacf;
+}
+
+$container-shadow: .8rem .8rem 1.4rem var(--greyLight-2), 
+-.2rem -.2rem 1.8rem var(--white);
+$shadow: .3rem .3rem .6rem var(--greyLight-2), 
+-.2rem -.2rem .5rem var(--white);
+$inner-shadow: inset .2rem .2rem .5rem var(--greyLight-2), 
+inset -.2rem -.2rem .5rem var(--white);
+
+
+h1, h2 {
+  font-family: "AtAmiga-Regular";
+  // font-size: 2em;
+  font-size: 2em;
+  // color: white;
+  color: var(--greyLight-3);
+  text-align: center;
+  margin: 0;
+  // margin: 0.5rem;
+  // text-shadow: 0px 3px 0px var(--greyLight-1),
+  //   0px 14px 10px rgba(0,0,0,0.15),
+  //   0px 24px 2px rgba(0,0,0,0.1),
+  //   0px 34px 30px rgba(0,0,0,0.1);
+
+  // text-shadow: -10px 10px 0px var(--primary-light),
+  //             -20px 20px 0px var(--primary),
+  //             -30px 30px 0px var(--primary-dark);
+
+  // text-shadow: 2px 8px 6px rgba(0,0,0,0.2),
+  //             0px -5px 35px var(--greyLight-3);
+}
+
+h2 {
+  color: var(--primary-dark)
+}

@@ -1,0 +1,14 @@
+// OVERALL CONTAINER
+#control-container {
+  border-radius: 3rem;
+  box-shadow: $container-shadow;
+  margin: 2rem 3rem;
+  padding: 1rem;
+}
+
+// MIDDLE CONTAINER of CONTROLS - 3 column width
+#control-main-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+}
+
