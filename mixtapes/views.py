@@ -35,7 +35,7 @@ class MixtapeListView(APIView):
         # debug mode on
         print('POST api/mixtapes/ endpoint hit')
 
-        # populating the owner data without having to specify in the request
+        # populating the owner data automatically without user having to specify in the request
         # print('REQUEST USER ID ->', request.user.id)
         request.data['owner'] = request.user.id
         # print('REQUEST DATA ->', request.data)
