@@ -7,15 +7,22 @@ const Home = () => {
   // DATA STATE: setting state for database query of user's mixtapes
   const [mixtapes, setMixtapes] = useState([])
 
-  // STATES: play states for ReactPlayer
-  const [playing, setPlaying] = useState(false) // is there a mixtape playing?  True or False.  Down with auto-play!
+  // STATES: specific states for the mixtape information
   const [currentArtist, setCurrentArtist] = useState(null)
   const [currentTrack, setCurrentTrack] = useState(null) 
   const [currentSource, setCurrentSource] = useState(null)  // setting the source (i.e. soundcloud / youtube)
   const [currentSourceUrl, setCurrentSourceUrl] = useState(null) 
   const [currentArtworkUrl, setCurrentArtworkUrl] = useState(null)
+  
+  // STATES: play states for ReactPlayer
+  const [playing, setPlaying] = useState(false) // is there a mixtape playing?  True or False.  Down with auto-play!
+  const [currentTime, setCurrentTime] = useState(0)
+  // const [seekTime, setSeekTime] = useState(0) // a specific state for when the seek field is activated
+  const [currentMaxDuration, setCurrentMaxDuration] = useState(0) 
 
   // REF: references to html elements to target functionality
+  const marqueeRef = useRef(null)
+  const reactPlayerRef = useRef(null)
   const playRef = useRef(null)
   const pauseRef = useRef(null)
   const playBtnRef = useRef(null)
@@ -36,6 +43,20 @@ const Home = () => {
     getData()
   }, [])
 
+  useEffect(() => {
+    const marqueeTextElement = marqueeRef.current.querySelector('.marquee-text')
+    const isOverflowing = marqueeTextElement.offsetWidth > marqueeRef.current.offsetWidth
+
+    console.log(marqueeTextElement.offsetWidth, marqueeRef.current.offsetWidth)
+
+    if (isOverflowing) {
+      setTimeout(() => {
+        marqueeTextElement.classList.add('scroll')
+        console.log(marqueeTextElement.offsetWidth, marqueeRef.current.offsetWidth)
+      }, 0)
+    }
+  }, [playing])
+
   // when clicking the play button, we change the state of the play and update SCSS references
   function handlePlayButtonClick() {
     pauseRef.current.classList.toggle('visibility')
@@ -55,6 +76,20 @@ const Home = () => {
     setCurrentArtworkUrl(artworkUrl)
   }
 
+  // updates current time with progress from ReactPlayer callback prop (onProgress) to be used for labels + progress bar
+  function handleProgress(progress) {
+    const { playedSeconds } = progress
+    setCurrentTime(playedSeconds)
+  }
+
+  // updates current time based on seeking new time with progress bar
+  function handleSeek(e){
+    // update the state with current time + make sure ReactPlayer updates too
+    const seekTime = e.target.value
+    setCurrentTime(seekTime)
+    reactPlayerRef.current.seekTo(seekTime)
+  }
+
   return (
     <>
       <div id="control-container" className="container">
@@ -66,9 +101,10 @@ const Home = () => {
             {/* <img src="https://i.ytimg.com/vi/gNSO_utZgGY/mqdefault.jpg"></img> */}
 
             {currentSource === 'youtube' ? (
-              <ReactPlayer className="react-player" playing={playing} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}
+              <ReactPlayer className="react-player" playing={playing} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onProgress={handleProgress} onDuration={setCurrentMaxDuration}
               // <ReactPlayer className="react-player" playing={playing} onStart={handleStart} onProgress={handlePlayTimer} onPlay={handlePlayButtonClick} onPause={handlePlayButtonClick}
                 url={currentSourceUrl}
+                ref={reactPlayerRef}
                 volume={0.5}
                 width='100%'
                 height='280px'
@@ -81,9 +117,10 @@ const Home = () => {
             ) : (
               <>
                 <img src={currentArtworkUrl}></img>
-                <ReactPlayer className="react-player" playing={playing} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}
+                <ReactPlayer className="react-player" playing={playing} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onProgress={handleProgress} onDuration={setCurrentMaxDuration}
                 // <ReactPlayer className="react-player" playing={playing} onStart={handleStart} onProgress={handlePlayTimer} onPlay={handlePlayButtonClick} onPause={handlePlayButtonClick}
                   url={currentSourceUrl}
+                  ref={reactPlayerRef}
                   volume={0.5}
                   width='0'
                   height='0'
@@ -99,8 +136,8 @@ const Home = () => {
           </div>
           
           <div id="control-led-container">
-            <div id="marquee" className="led track">
-              <div className="marquee-text">Test Data</div>
+            <div id="marquee" className="led track" ref={marqueeRef}>
+              <div className="marquee-text">{currentArtist ? currentArtist + ': ' + currentTrack : 'Welcome to Spectrum'}</div>
             </div>
             <div id="mood-controls">
               <div className="segmented-control">
@@ -123,7 +160,7 @@ const Home = () => {
           </div>
           <div id="control-volume-container"></div>
         </div>
-        <div id="control-play-container">
+        <div id="control-seek-container">
           <div className="circle">
             <span className="circle__btn" ref={playBtnRef} onClick={handlePlayButtonClick}>
               <ion-icon class="pause" className={`pause ${playing ? 'visibility' : ''}`} name="pause" ref={pauseRef}></ion-icon>
@@ -132,6 +169,8 @@ const Home = () => {
             <span className="circle__back-1 paused" ref={wave1Ref}></span>
             <span className="circle__back-2 paused" ref={wave2Ref}></span>
           </div>
+          <div id="progress-bar-container">
+            <input type="range" name="seek" id="progress-bar" value={currentTime} min="0" max={currentMaxDuration} onChange={handleSeek}/></div>
         </div>
       </div>
       {/* <div>
