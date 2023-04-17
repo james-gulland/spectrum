@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import ReactPlayer from 'react-player'
+import Slider from './Slider'
 
 const Home = () => {
 
@@ -17,17 +18,17 @@ const Home = () => {
   // STATES: play states for ReactPlayer
   const [playing, setPlaying] = useState(false) // is there a mixtape playing?  True or False.  Down with auto-play!
   const [currentTime, setCurrentTime] = useState(0)
-  // const [seekTime, setSeekTime] = useState(0) // a specific state for when the seek field is activated
   const [currentMaxDuration, setCurrentMaxDuration] = useState(0) 
+  const [currentVolume, setCurrentVolume] = useState(0.5)
 
   // REF: references to html elements to target functionality
-  const marqueeRef = useRef(null)
   const reactPlayerRef = useRef(null)
+  const playBtnRef = useRef(null)
   const playRef = useRef(null)
   const pauseRef = useRef(null)
-  const playBtnRef = useRef(null)
   const wave1Ref = useRef(null)
   const wave2Ref = useRef(null)
+  const marqueeRef = useRef(null)
     
   // ! On Mount
   useEffect(() => {
@@ -43,6 +44,7 @@ const Home = () => {
     getData()
   }, [])
 
+  // update the LED container with scrolling text if too long (updates when playing)
   useEffect(() => {
     const marqueeTextElement = marqueeRef.current.querySelector('.marquee-text')
     const isOverflowing = marqueeTextElement.offsetWidth > marqueeRef.current.offsetWidth
@@ -57,7 +59,7 @@ const Home = () => {
     }
   }, [playing])
 
-  // when clicking the play button, we change the state of the play and update SCSS references
+  // when clicking the play button, change the state of the play and update SCSS references
   function handlePlayButtonClick() {
     pauseRef.current.classList.toggle('visibility')
     playRef.current.classList.toggle('visibility')
@@ -74,6 +76,17 @@ const Home = () => {
     setCurrentSource(channelSource)
     setCurrentSourceUrl(sourceUrl)
     setCurrentArtworkUrl(artworkUrl)
+
+    const mixtapeCards = document.querySelectorAll('.mixtape-card')
+    mixtapeCards.forEach(card => {
+      if (card.classList.contains('checked')) {
+        card.classList.remove('checked')
+      }
+    })
+
+    const clickedCard = event.target.closest('.mixtape-card')
+    clickedCard.classList.add('checked')
+
   }
 
   // updates current time with progress from ReactPlayer callback prop (onProgress) to be used for labels + progress bar
@@ -90,6 +103,15 @@ const Home = () => {
     reactPlayerRef.current.seekTo(seekTime)
   }
 
+  function handleIcon(source) {
+    if (source === 'youtube') {
+      return <ion-icon name="logo-youtube"></ion-icon>
+    } else if (source === 'soundcloud') {
+      return <ion-icon name="cloud"></ion-icon>
+      // return <ion-icon name="logo-soundcloud"></ion-icon> <-- this one is broken :(
+    }
+  }
+
   return (
     <>
       <div id="control-container" className="container">
@@ -98,16 +120,14 @@ const Home = () => {
         </div>
         <div id="control-main-container">
           <div id="control-player-container">
-            {/* <img src="https://i.ytimg.com/vi/gNSO_utZgGY/mqdefault.jpg"></img> */}
-
             {currentSource === 'youtube' ? (
               <ReactPlayer className="react-player" playing={playing} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onProgress={handleProgress} onDuration={setCurrentMaxDuration}
               // <ReactPlayer className="react-player" playing={playing} onStart={handleStart} onProgress={handlePlayTimer} onPlay={handlePlayButtonClick} onPause={handlePlayButtonClick}
                 url={currentSourceUrl}
                 ref={reactPlayerRef}
-                volume={0.5}
+                volume={currentVolume}
                 width='100%'
-                height='280px'
+                height='100%'
                 config={{
                   youtube: {
                     options: { visual: false, show_artwork: false }, 
@@ -116,12 +136,12 @@ const Home = () => {
               />
             ) : (
               <>
-                <img src={currentArtworkUrl}></img>
+                <img src={currentArtworkUrl ? currentArtworkUrl : 'https://images.unsplash.com/photo-1610337673044-720471f83677?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1372&q=80'}></img>
                 <ReactPlayer className="react-player" playing={playing} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onProgress={handleProgress} onDuration={setCurrentMaxDuration}
                 // <ReactPlayer className="react-player" playing={playing} onStart={handleStart} onProgress={handlePlayTimer} onPlay={handlePlayButtonClick} onPause={handlePlayButtonClick}
                   url={currentSourceUrl}
                   ref={reactPlayerRef}
-                  volume={0.5}
+                  volume={currentVolume}
                   width='0'
                   height='0'
                   config={{
@@ -158,7 +178,19 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div id="control-volume-container"></div>
+          <div id="control-volume-container">
+            <div id="nav-container">
+              <div id="profile">
+                <ion-icon name="person"></ion-icon></div>
+            </div>
+            <div id="volume-container">
+              <div className="volume">
+                {/* <Slider /> */}
+                <label htmlFor="volume">Volume</label>
+                <input type="range" name="volume" id="volume-bar" value={currentVolume} min="0" max="1" step="0.01" onChange={(e) => setCurrentVolume(parseFloat(e.target.value))}/>
+              </div>
+            </div>
+          </div>
         </div>
         <div id="control-seek-container">
           <div className="circle">
@@ -181,9 +213,13 @@ const Home = () => {
           mixtapes.map(mixtape => {
             const { id, artist_name: artistName, track_name: trackName, channel_source: channelSource, source_url: sourceUrl, artwork_url: artworkUrl } = mixtape 
             return (
-              <div key={id} className="mixtape-card" onClick={() => handleChangeMixtape(artistName, trackName, channelSource, sourceUrl, artworkUrl)}>
+              <div key={id} className="mixtape-card" onClick={() => handleChangeMixtape(artistName, trackName, channelSource, sourceUrl, artworkUrl) }>
                 <div className="mixtape-card-artwork" style={{ backgroundImage: `url(${artworkUrl})` }}></div>
-                <div className="mixtape-card-info">{artistName}: {trackName}</div>
+                <div className="mixtape-card-info">
+                  <div className="artist-name">{artistName}</div>
+                  <div className="track-name">{trackName}</div>
+                  <div className="source-icon">{handleIcon(channelSource)}</div>
+                </div>
               </div>
             )
           })
