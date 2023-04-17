@@ -1,20 +1,26 @@
 import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
+import ReactPlayer from 'react-player'
 
 const Home = () => {
 
-  // references to html elements to target functionality
+  // DATA STATE: setting state for database query of user's mixtapes
+  const [mixtapes, setMixtapes] = useState([])
+
+  // STATES: play states for ReactPlayer
+  const [playing, setPlaying] = useState(false) // is there a mixtape playing?  True or False.  Down with auto-play!
+  const [currentArtist, setCurrentArtist] = useState(null)
+  const [currentTrack, setCurrentTrack] = useState(null) 
+  const [currentSource, setCurrentSource] = useState(null)  // setting the source (i.e. soundcloud / youtube)
+  const [currentSourceUrl, setCurrentSourceUrl] = useState(null) 
+  const [currentArtworkUrl, setCurrentArtworkUrl] = useState(null)
+
+  // REF: references to html elements to target functionality
   const playRef = useRef(null)
   const pauseRef = useRef(null)
   const playBtnRef = useRef(null)
   const wave1Ref = useRef(null)
   const wave2Ref = useRef(null)
-  
-  // play states
-  const [playing, setPlaying] = useState(null)
-
-  // core data storage for user's mixtapes in profile
-  const [mixtapes, setMixtapes] = useState([])
     
   // ! On Mount
   useEffect(() => {
@@ -30,6 +36,7 @@ const Home = () => {
     getData()
   }, [])
 
+  // when clicking the play button, we change the state of the play and update SCSS references
   function handlePlayButtonClick() {
     pauseRef.current.classList.toggle('visibility')
     playRef.current.classList.toggle('visibility')
@@ -39,6 +46,15 @@ const Home = () => {
     setPlaying(!playing)
   }
 
+  // when clicking mixtapes in the grid, it changes the current mixtape to play in ReactPlayer and updates UI elements
+  function handleChangeMixtape(artistName, trackName, channelSource, sourceUrl, artworkUrl) {
+    setCurrentArtist(artistName)
+    setCurrentTrack(trackName)
+    setCurrentSource(channelSource)
+    setCurrentSourceUrl(sourceUrl)
+    setCurrentArtworkUrl(artworkUrl)
+  }
+
   return (
     <>
       <div id="control-container" className="container">
@@ -46,8 +62,42 @@ const Home = () => {
           <h1>spectrum</h1>
         </div>
         <div id="control-main-container">
-          <div id="control-artwork-container"><img src="https://i.ytimg.com/vi/gNSO_utZgGY/mqdefault.jpg"></img></div>
-          {/* <div id="control-artwork-container"><img src="https://i.ytimg.com/vi/gNSO_utZgGY/hqdefault.jpg"></img></div> */}
+          <div id="control-player-container">
+            {/* <img src="https://i.ytimg.com/vi/gNSO_utZgGY/mqdefault.jpg"></img> */}
+
+            {currentSource === 'youtube' ? (
+              <ReactPlayer className="react-player" playing={playing} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}
+              // <ReactPlayer className="react-player" playing={playing} onStart={handleStart} onProgress={handlePlayTimer} onPlay={handlePlayButtonClick} onPause={handlePlayButtonClick}
+                url={currentSourceUrl}
+                volume={0.5}
+                width='100%'
+                height='280px'
+                config={{
+                  youtube: {
+                    options: { visual: false, show_artwork: false }, 
+                  },
+                }}
+              />
+            ) : (
+              <>
+                <img src={currentArtworkUrl}></img>
+                <ReactPlayer className="react-player" playing={playing} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}
+                // <ReactPlayer className="react-player" playing={playing} onStart={handleStart} onProgress={handlePlayTimer} onPlay={handlePlayButtonClick} onPause={handlePlayButtonClick}
+                  url={currentSourceUrl}
+                  volume={0.5}
+                  width='0'
+                  height='0'
+                  config={{
+                    soundcloud: {
+                      // options: { visual: false, show_artwork: false, color: '#6d5dfc' }, 
+                      options: { visual: false, show_artwork: false }, 
+                    },
+                  }}
+                />
+              </>
+            )}
+          </div>
+          
           <div id="control-led-container">
             <div id="marquee" className="led track">
               <div className="marquee-text">Test Data</div>
@@ -90,12 +140,11 @@ const Home = () => {
       <div id="grid-container">
         {mixtapes.length > 0 ? 
           mixtapes.map(mixtape => {
-            const { id, artist_name: artistName, track_name: trackName, artwork_url: artworkUrl } = mixtape 
+            const { id, artist_name: artistName, track_name: trackName, channel_source: channelSource, source_url: sourceUrl, artwork_url: artworkUrl } = mixtape 
             return (
-              <div key={id} className="mixtape-card">
-                {/* <div id="mixtape-card-artwork"><img src={artworkUrl}></img></div> */}
-                <div id="mixtape-card-artwork" style={{ backgroundImage: `url(${artworkUrl})` }}></div>
-                <div>{artistName}: {trackName}</div>
+              <div key={id} className="mixtape-card" onClick={() => handleChangeMixtape(artistName, trackName, channelSource, sourceUrl, artworkUrl)}>
+                <div className="mixtape-card-artwork" style={{ backgroundImage: `url(${artworkUrl})` }}></div>
+                <div className="mixtape-card-info">{artistName}: {trackName}</div>
               </div>
             )
           })
