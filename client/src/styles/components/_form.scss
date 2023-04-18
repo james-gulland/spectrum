@@ -1,0 +1,85 @@
+.login-register-form {
+  // display: block;
+  display: grid;
+
+  div {
+    margin-bottom: 1rem;
+    align-items: center;
+
+    > label {
+      font-family: $main-font;
+      display: inline-block;
+      width: 150px;
+    }
+
+    > input {
+      width: 100%;
+      height: 3rem;
+      border: none;
+      border-radius: 1rem;
+      font-size: 1.4rem;
+      margin: 0.5rem 0;
+      padding-left: 1.4rem;
+      box-shadow: $inner-shadow;
+      background: none;
+      font-family: inherit;
+      color: var(--greyDark);
+
+      &::placeholder { color: var(--greyLight-3); }
+      &:focus { outline: none; box-shadow: $shadow; }
+    }
+}
+
+.login-register-button {
+  margin: 0 auto;
+}
+
+  /*  BUTTONS  */
+
+  button {
+    border: none;
+    font-family: $main-font;
+    font-size: 1.5rem;
+    width: 15rem;
+    height: 3rem;
+    border-radius: 1rem;
+    box-shadow: $shadow;
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: .3s ease;
+
+    &.btn__primary {
+      grid-column: 1 / 2;
+      grid-row: 4 / 5;
+      background: var(--primary);
+      box-shadow:inset .2rem .2rem 1rem var(--primary-light), 
+                inset -.2rem -.2rem 1rem var(--primary-dark),
+                $shadow;
+      color: var(--greyLight-1);
+
+      &:hover { color: var(--white); }
+      &:active {
+        box-shadow:inset .2rem .2rem 1rem var(--primary-dark), 
+              inset -.2rem -.2rem 1rem var(--primary-light);
+      }
+    }
+
+    &.btn__secondary {
+      grid-column: 1 / 2;
+      grid-row: 5 / 6;
+      color: var(--greyDark);
+      &:hover { color: var(--primary); }
+      &:active {
+        box-shadow: $inner-shadow;
+      }
+    }
+
+  p { 
+    font-size: 1.6rem;
+  }
+}
+
+}

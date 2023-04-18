@@ -162,21 +162,21 @@ const Home = () => {
               <div className="marquee-text">{currentArtist ? currentArtist + ': ' + currentTrack : 'Welcome to Spectrum'}</div>
             </div>
             <div id="mood-controls">
-              <div className="segmented-control">
+              <div className="radio-control main">
               
                 <input type="radio" name="radio2" value="3" id="tab-1" checked/>
-                <label htmlFor="tab-1" className="segmented-control__1">
+                <label htmlFor="tab-1" className="radio-control__1">
                   <p>Focus</p></label>
                 
                 <input type="radio" name="radio2" value="4" id="tab-2" />
-                <label htmlFor="tab-2" className="segmented-control__2">
+                <label htmlFor="tab-2" className="radio-control__2">
                   <p>Chill</p></label>
                 
                 <input type="radio" name="radio2" value="5" id="tab-3" />
-                <label htmlFor="tab-3" className="segmented-control__3">
+                <label htmlFor="tab-3" className="radio-control__3">
                   <p>Energy</p></label>
                 
-                <div className="segmented-control__color"></div>
+                <div className="radio-control__color"></div>
               </div>
             </div>
           </div>
@@ -215,7 +215,8 @@ const Home = () => {
       {/* <div>
         <h2>playlist</h2>
       </div> */}
-      <div id="grid-container">
+      
+      <div id="grid-container" className="container">
         {mixtapes.length > 0 ? 
           mixtapes.map(mixtape => {
             const { id, artist_name: artistName, track_name: trackName, channel_source: channelSource, source_url: sourceUrl, artwork_url: artworkUrl } = mixtape 

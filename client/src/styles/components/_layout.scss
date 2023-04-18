@@ -1,16 +1,17 @@
-// OVERALL CONTAINERS ON MAIN
-#control-container, #grid-container {
+// ALL CONTAINERS
+.container {
   margin: 2rem 3rem;
   padding: 1rem;
 }
 
-#control-container {
+// BOSS-LEVEL CONTAINERS ONLY
+#control-container, #login-container {
   border-radius: 3rem;
   box-shadow: $container-shadow;
 }
 
 // MAIN CONTAINER of CONTROLS - 3 column width
-#control-main-container {
+#control-main-container, #login-form-container {
   display: grid;
   grid-template-columns: 1fr 1.5fr 1fr;
   gap: 1rem;
@@ -78,6 +79,12 @@
 
 }
 
+#rightside-container {
+  display: grid;
+  justify-content: end;
+  padding-right: 1rem;
+}
+
 // PLAY & SEEK CONTAINER
 #control-seek-container {
   display: flex;
@@ -136,5 +143,19 @@
     &:hover, &.checked { color: var(--primary); }
 
   }
+}
 
+#login-form-container {
+
+  #login-led-container {
+    display: grid;
+
+    #login-control-container {
+      // width:100%;
+      margin: 1em auto;
+      text-align: center;
+      justify-content: center;
+
+    }
+  }
 }
