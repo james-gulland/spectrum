@@ -25,19 +25,26 @@
       font-family: inherit;
       color: var(--greyDark);
 
-      &::placeholder { color: var(--greyLight-3); }
-      &:focus { outline: none; box-shadow: $shadow; }
+      &::placeholder { 
+        font-family: $main-font;
+        color: var(--greyLight-3); 
+      }
+      &:focus { 
+        outline: none; 
+        box-shadow: $shadow; 
+      }
     }
 }
 
 .login-register-button {
-  margin: 0 auto;
+  margin: 1rem auto;
 }
 
   /*  BUTTONS  */
 
   button {
     border: none;
+    // font-family: $main-font;
     font-family: $main-font;
     font-size: 1.5rem;
     width: 15rem;

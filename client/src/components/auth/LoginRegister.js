@@ -202,7 +202,7 @@ const Login = () => {
           )}
         </div>
         <div id="rightside-container">
-          <Link id="profile" to={'/'} as={Link}><ion-icon name="home"></ion-icon></Link>
+          <Link id="home" className="profile" to={'/'} as={Link}><ion-icon name="home"></ion-icon></Link>
         </div>
       </div>
     </div>

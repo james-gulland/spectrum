@@ -24,6 +24,10 @@ class MixtapeListView(APIView):
         # querying mixtape table in db and returning all records
         # we can't use this format of data, so need to serialize it
         mixtapes = Mixtape.objects.all()
+
+        # to update for future:
+        # mixtapes = Mixtape.objects.filter(owner=request.user)
+
         serialized_mixtapes = PopulatedMixtapeSerializer(mixtapes, many=True) # populated serializer includes the many-to-many relationship with Moods
 
         # return Response ('GET api/mixtapes/ endpoint hit')

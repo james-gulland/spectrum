@@ -22,8 +22,10 @@ const Home = () => {
   const [currentTime, setCurrentTime] = useState(0)
   const [currentMaxDuration, setCurrentMaxDuration] = useState(0) 
   const [currentVolume, setCurrentVolume] = useState(0.5)
+  const [ledText, setLedText] = useState('Welcome to Spectrum')
 
   // REF: references to html elements to target functionality
+  
   const reactPlayerRef = useRef(null)
   const playBtnRef = useRef(null)
   const playRef = useRef(null)
@@ -63,12 +65,17 @@ const Home = () => {
 
   // when clicking the play button, change the state of the play and update SCSS references
   function handlePlayButtonClick() {
-    pauseRef.current.classList.toggle('visibility')
-    playRef.current.classList.toggle('visibility')
-    playBtnRef.current.classList.toggle('shadow')
-    wave1Ref.current.classList.toggle('paused')
-    wave2Ref.current.classList.toggle('paused')
-    setPlaying(!playing)
+    if (currentArtist) {
+      pauseRef.current.classList.toggle('visibility')
+      playRef.current.classList.toggle('visibility')
+      playBtnRef.current.classList.toggle('shadow')
+      wave1Ref.current.classList.toggle('paused')
+      wave2Ref.current.classList.toggle('paused')
+      setPlaying(!playing)
+    } else {
+      setLedText('Please load track...')
+    }
+
   }
 
   // when clicking mixtapes in the grid, it changes the current mixtape to play in ReactPlayer and updates UI elements
@@ -78,6 +85,7 @@ const Home = () => {
     setCurrentSource(channelSource)
     setCurrentSourceUrl(sourceUrl)
     setCurrentArtworkUrl(artworkUrl)
+    setLedText(artistName + ': ' + trackName)
 
     const mixtapeCards = document.querySelectorAll('.mixtape-card')
     mixtapeCards.forEach(card => {
@@ -110,7 +118,8 @@ const Home = () => {
       return <ion-icon name="logo-youtube"></ion-icon>
     } else if (source === 'soundcloud') {
       return <ion-icon name="cloud"></ion-icon>
-      // return <ion-icon name="logo-soundcloud"></ion-icon> <-- this one is broken :(
+      // unfortunately the below link is broken :(
+      // return <ion-icon name="logo-soundcloud"></ion-icon>
     }
   }
 
@@ -159,7 +168,8 @@ const Home = () => {
           
           <div id="control-led-container">
             <div id="marquee" className="led track" ref={marqueeRef}>
-              <div className="marquee-text">{currentArtist ? currentArtist + ': ' + currentTrack : 'Welcome to Spectrum'}</div>
+              {/* <div className="marquee-text">{currentArtist ? currentArtist + ': ' + currentTrack : 'Welcome to Spectrum'}</div> */}
+              <div className="marquee-text">{ledText}</div>
             </div>
             <div id="mood-controls">
               <div className="radio-control main">
