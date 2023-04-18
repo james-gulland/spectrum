@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import ReactPlayer from 'react-player'
 import Slider from './Slider'
+import { getUserID, isAuthenticated } from '../helpers/auth'
+import { useLocation, useNavigate, Link } from 'react-router-dom'
 
 const Home = () => {
 
@@ -181,7 +183,12 @@ const Home = () => {
           <div id="control-volume-container">
             <div id="nav-container">
               <div id="profile">
-                <ion-icon name="person"></ion-icon></div>
+                {isAuthenticated() ?
+                  <Link className="profile" to={`profile/${getUserID()}`} as={Link}><ion-icon name="person"></ion-icon></Link>
+                  :
+                  <Link className="profile" to={'hi'} as={Link}><ion-icon name="person"></ion-icon></Link>
+                }
+              </div>
             </div>
             <div id="volume-container">
               <div className="volume">
