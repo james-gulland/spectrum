@@ -5,13 +5,13 @@
 }
 
 // BOSS-LEVEL CONTAINERS ONLY
-#control-container, #login-container {
+#control-container, #login-container, #add-container {
   border-radius: 3rem;
   box-shadow: $container-shadow;
 }
 
 // MAIN CONTAINER of CONTROLS - 3 column width
-#control-main-container, #login-form-container {
+#control-main-container, #login-form-container, #add-led-container {
   display: grid;
   grid-template-columns: 1fr 1.5fr 1fr;
   gap: 1rem;
@@ -145,6 +145,7 @@
   }
 }
 
+// LOGIN & REGISTER LAYOUT
 #login-form-container {
 
   #login-led-container {
@@ -156,6 +157,31 @@
       text-align: center;
       justify-content: center;
 
+    }
+  }
+}
+
+// ADD MIXTAPE LAYOUT
+#add-form-container {
+  
+  #enter-url-container {
+    margin: 0 auto;
+    
+    #url-fields {
+      text-align: center;
+      > input {
+        // display: grid;
+        width: 80%;
+      }
+    }
+  }
+
+  #preview-mixtape-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    #preview-reactplayer {
+      padding: 3rem;
     }
   }
 }

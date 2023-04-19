@@ -1,9 +1,8 @@
 import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import ReactPlayer from 'react-player'
-import Slider from './Slider'
 import { getUserID, isAuthenticated } from '../helpers/auth'
-import { useLocation, useNavigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Home = () => {
 
@@ -117,9 +116,10 @@ const Home = () => {
     if (source === 'youtube') {
       return <ion-icon name="logo-youtube"></ion-icon>
     } else if (source === 'soundcloud') {
-      return <ion-icon name="cloud"></ion-icon>
-      // unfortunately the below link is broken :(
+      
+      // unfortunately the below link is broken, using temporary icon :(
       // return <ion-icon name="logo-soundcloud"></ion-icon>
+      return <ion-icon name="cloud"></ion-icon>
     }
   }
 
@@ -246,9 +246,23 @@ const Home = () => {
             {console.log('error')}
           </>
         }
-        <div className="mixtape-card checked">
-          <div>Add</div>
-        </div>
+        {isAuthenticated() ?
+          <>
+            <Link className="add" to={'/add'} as={Link}>
+              <div className="mixtape-card checked">
+                <div>Add</div>
+              </div> 
+            </Link> 
+          </>
+          :
+          <>
+            <Link className="hi" to={'hi'} as={Link}>
+              <div className="mixtape-card checked">
+                <div>Add</div>
+              </div>
+            </Link>
+          </>
+        }
       </div>
     </>
   )

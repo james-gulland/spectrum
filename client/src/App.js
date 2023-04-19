@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './components/Home'
 import LoginRegister from './components/auth/LoginRegister'
-// import Add from './components/Add'
+import Add from './components/Add'
 
 const App = () => {
 
@@ -13,7 +13,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/hi" element={<LoginRegister />} />
-          {/* <Route path="/add" element={<Add />} /> */}
+          <Route path="/add" element={<Add />} />
         </Routes>
       </BrowserRouter>
     </div>
