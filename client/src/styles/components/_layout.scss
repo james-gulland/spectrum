@@ -79,6 +79,10 @@
 
 }
 
+#leftside-container {
+  margin-left: 1rem;
+}
+
 #rightside-container {
   display: grid;
   justify-content: end;
@@ -169,9 +173,14 @@
     
     #url-fields {
       text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1rem 0;
       > input {
-        // display: grid;
+        // display: flex;
         width: 80%;
+        margin-right: 1.5rem;
       }
     }
   }
@@ -181,7 +190,18 @@
     grid-template-columns: 1fr 1fr;
 
     #preview-reactplayer {
-      padding: 3rem;
+      padding: 2rem;
+    }
+
+    #preview-fields{
+      padding: 0 2rem;
+    }
+
+    .check-container {
+      text-align: center;
+      > div label {
+        margin-bottom: 0.25rem;
+      }
     }
   }
 }

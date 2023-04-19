@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import ReactPlayer from 'react-player'
+import { Link } from 'react-router-dom'
 
 const Add = () => {
   
@@ -30,7 +31,7 @@ const Add = () => {
       // set valid URL to show in ReactPlayer
       setValidatedUrl(url)
 
-      // check channel source of URL to process logic for retrieving metadata
+      // check channel source of URL and add to state along with the URL
       const channelSource = checkChannelSource(url)
       setMixtapeFields({
         ...mixtapeFields,
@@ -40,6 +41,7 @@ const Add = () => {
 
       // metadata is retrieved only once the player has properly loaded.
       // please see useEffect below for that. below function is now redundant.
+      // a lot of pain was had figuring this out lols.
       // getSCMetadata()
 
       setLedText('Sick track :-)')
@@ -101,6 +103,8 @@ const Add = () => {
     }))
   }
 
+  // handing input change for checkboxes only, which are annoying buggers.  
+  // I am sure there is a better way of doing this, but I have bigger battles...
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target
 
@@ -169,7 +173,9 @@ const Add = () => {
 
       {/* LED SCREEN */}
       <div id="add-led-container">
-        <div id="leftside-container"></div>
+        <div id="leftside-container">
+          <Link id="home" className="profile" to={'/'} as={Link}><ion-icon name="home"></ion-icon></Link>
+        </div>
         <div id="login-led-container">
           <div id="marquee" className="led track" ref={marqueeRef}>
             <div className="marquee-text">{ledText}</div>
@@ -184,8 +190,8 @@ const Add = () => {
         {/* ENTER URL */}
         <div id="enter-url-container">
           <div id="url-fields">
-            <input type="text" placeholder="enter a soundcloud or youtube url" value={url} onChange={(e) => setUrl(e.target.value)}/>
-            <button onClick={handleLoadClick}>Load</button>
+            <input type="text" className="url-input" placeholder="enter a soundcloud or youtube url" value={url} onChange={(e) => setUrl(e.target.value)}/>
+            <button className="btn__secondary" onClick={handleLoadClick}>Load</button>
           </div>
         </div>
 
@@ -253,13 +259,19 @@ const Add = () => {
                   />
                 </div>
               </div>
-              <div id="split">
-                <label htmlFor="mood1">Focus</label>
-                <input type="checkbox" id="mood1" name="mood1" value="focus" onChange={handleCheckboxChange} />
-                <label htmlFor="mood2">Chill</label>
-                <input type="checkbox" id="mood2" name="mood2" value="chill" onChange={handleCheckboxChange} />
-                <label htmlFor="mood3">Energy</label>
-                <input type="checkbox" id="mood3" name="mood3" value="energy" onChange={handleCheckboxChange} />
+              <div id="split" className="check-container">
+                <div>
+                  <label htmlFor="mood1">Focus</label>
+                  <input type="checkbox" className="checkbox" id="mood1" name="mood1" value="focus" onChange={handleCheckboxChange} />
+                </div>
+                <div>
+                  <label htmlFor="mood2">Chill</label>
+                  <input type="checkbox" className="checkbox" id="mood2" name="mood2" value="chill" onChange={handleCheckboxChange} />
+                </div>
+                <div>
+                  <label htmlFor="mood3">Energy</label>
+                  <input type="checkbox" className="checkbox" id="mood3" name="mood3" value="energy" onChange={handleCheckboxChange} />
+                </div>
               </div>
               <div className="login-register-button">
                 <button className="btn btn__primary" type="submit">Add</button>

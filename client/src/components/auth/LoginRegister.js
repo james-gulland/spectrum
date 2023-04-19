@@ -104,7 +104,9 @@ const Login = () => {
       </div>
       
       <div id="login-form-container">
-        <div id="leftside-container"></div>
+        <div id="leftside-container">
+          <Link id="home" className="profile" to={'/'} as={Link}><ion-icon name="home"></ion-icon></Link>
+        </div>
         <div id="login-led-container">
           <div id="marquee" className="led track" ref={marqueeRef}>
             <div className="marquee-text">{ledText}</div>
@@ -202,7 +204,7 @@ const Login = () => {
           )}
         </div>
         <div id="rightside-container">
-          <Link id="home" className="profile" to={'/'} as={Link}><ion-icon name="home"></ion-icon></Link>
+          {/* <Link id="home" className="profile" to={'/'} as={Link}><ion-icon name="home"></ion-icon></Link> */}
         </div>
       </div>
     </div>
