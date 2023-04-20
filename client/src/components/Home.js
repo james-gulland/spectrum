@@ -15,6 +15,8 @@ const Home = () => {
   const [currentSource, setCurrentSource] = useState(null)  // setting the source (i.e. soundcloud / youtube)
   const [currentSourceUrl, setCurrentSourceUrl] = useState(null) 
   const [currentArtworkUrl, setCurrentArtworkUrl] = useState(null)
+  const [selectedMood, setSelectedMood] = useState('all') // default to All
+
   
   // STATES: play states for ReactPlayer
   const [playing, setPlaying] = useState(false) // is there a mixtape playing?  True or False.  Down with auto-play!
@@ -114,6 +116,21 @@ const Home = () => {
     reactPlayerRef.current.seekTo(seekTime)
   }
 
+  const handleMoodChange = (e) => {
+    // setSelectedMood(Number(e.target.value)) // convert value to number
+    setSelectedMood(e.target.value)
+  }
+
+  function filterMixtapes() {
+    if (selectedMood === 'all') {
+      return mixtapes
+    } else {
+      return mixtapes.filter((mixtape) =>
+        mixtape.moods.some((mood) => mood.name === selectedMood)
+      )
+    }
+  }
+
   function handleIcon(source) {
     if (source === 'youtube') {
       return <ion-icon name="logo-youtube"></ion-icon>
@@ -174,26 +191,29 @@ const Home = () => {
               <div className="marquee-text">{ledText}</div>
             </div>
             <div id="mood-controls">
-              <div className="radio-control main">
-                
-                <input type="radio" name="radio2" value="4" id="tab-0" defaultChecked/>
-                <label htmlFor="tab-0" className="radio-control__0">
-                  <p>All</p></label>
+              <form id="mood-radio" onChange={handleMoodChange}>
+                <div className="radio-control main">
+                  
+                  <input type="radio" name="radio2" value="all" id="tab-0" defaultChecked/>
+                  <label htmlFor="tab-0" className="radio-control__0">
+                    <p>All</p></label>
 
-                <input type="radio" name="radio2" value="1" id="tab-1"/>
-                <label htmlFor="tab-1" className="radio-control__1">
-                  <p>Focus</p></label>
-                
-                <input type="radio" name="radio2" value="2" id="tab-2" />
-                <label htmlFor="tab-2" className="radio-control__2">
-                  <p>Chill</p></label>
-                
-                <input type="radio" name="radio2" value="3" id="tab-3" />
-                <label htmlFor="tab-3" className="radio-control__3">
-                  <p>Energy</p></label>
-                
-                <div className="radio-control__color"></div>
-              </div>
+                  <input type="radio" name="radio2" value="focus" id="tab-1"/>
+                  <label htmlFor="tab-1" className="radio-control__1">
+                    <p>Focus</p></label>
+                  
+                  <input type="radio" name="radio2" value="chill" id="tab-2" />
+                  <label htmlFor="tab-2" className="radio-control__2">
+                    <p>Chill</p></label>
+                  
+                  <input type="radio" name="radio2" value="energy" id="tab-3" />
+                  <label htmlFor="tab-3" className="radio-control__3">
+                    <p>Energy</p></label>
+                  
+                  <div className="radio-control__color"></div>
+                  
+                </div>
+              </form>  
             </div>
           </div>
           <div id="control-volume-container">
@@ -233,8 +253,11 @@ const Home = () => {
       </div> */}
       
       <div id="grid-container" className="container">
-        {mixtapes.length > 0 ? 
-          mixtapes.map(mixtape => {
+        {/* {mixtapes.length > 0 ? 
+          mixtapes.filter(mixtape => mixtape.moods.includes(selectedMood) || selectedMood === 4)
+            .map(mixtape => { */}
+        {filterMixtapes().length > 0 ? (
+          filterMixtapes().map((mixtape) => {
             const { id, artist_name: artistName, track_name: trackName, channel_source: channelSource, source_url: sourceUrl, artwork_url: artworkUrl } = mixtape 
             return (
               <div key={id} className="mixtape-card" onClick={() => handleChangeMixtape(artistName, trackName, channelSource, sourceUrl, artworkUrl) }>
@@ -247,7 +270,7 @@ const Home = () => {
               </div>
             )
           })
-          :
+        ) :
           <>
             {console.log('No mixtapes found')}
           </>
