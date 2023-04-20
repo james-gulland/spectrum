@@ -40,10 +40,6 @@ const Add = () => {
 
       // set valid URL to show in ReactPlayer
       setValidatedUrl(url)
-      
-      // console.log('Before reset ->', mixtapeFields)
-      // setMixtapeFields(initialMixtapeFields)
-      // console.log('After reset ->', mixtapeFields)
 
       // check channel source of URL and add to state along with the URL
       const channelSource = checkChannelSource(url)
@@ -52,26 +48,6 @@ const Add = () => {
         source_url: url,
         channel_source: channelSource,
       })
-
-      // setMixtapeFields(prevFields => ({
-      //   ...prevFields,
-      //   source_url: url,
-      //   channel_source: channelSource,
-      // }))
-
-      // metadata is retrieved only once the player has properly loaded.
-      // please see useEffect below for that. below function is now redundant.
-      // a lot of pain was had figuring this out.
-      // getSCMetadata()
-
-      // console.log(playerReady)
-      // if (playerReady) {
-      //   if (channelSource === 'soundcloud'){
-      //     handleSCLoad()
-      //   } else if (channelSource === 'youtube') {
-      //     handleYTLoad()
-      //   }
-      // }
       
       // set success message
       setLedText('Sick mix :-)')
@@ -230,6 +206,7 @@ const Add = () => {
   }
 
   // Once the player has loaded properly, and is ready, then we read and save the data to state.
+  // allows user to load a new track also (thus validatedUrl changes and triggers)
   useEffect(() => {
     if (playerReady && validatedUrl) {
       if (mixtapeFields.channel_source === 'soundcloud'){

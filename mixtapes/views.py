@@ -14,21 +14,24 @@ from lib.exceptions import exceptions
 
 # view is for /api/mixtapes/
 class MixtapeListView(APIView):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    # permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthenticated,)
     
-    # GET all mixtapes
+    # GET all mixtapes for owner ONLY
+    @exceptions
     def get(self, request):
         # debug mode on
         print('GET api/mixtapes/ endpoint hit')
 
         # querying mixtape table in db and returning all records
         # we can't use this format of data, so need to serialize it
-        mixtapes = Mixtape.objects.all()
+        # mixtapes = Mixtape.objects.all()
 
-        # to update for future:
-        # mixtapes = Mixtape.objects.filter(owner=request.user)
+        # to update for future (NOT WORKING):
+        mixtapes = Mixtape.objects.filter(owner=request.user)
 
-        serialized_mixtapes = PopulatedMixtapeSerializer(mixtapes, many=True) # populated serializer includes the many-to-many relationship with Moods
+        # populated serializer includes the many-to-many relationship with Moods
+        serialized_mixtapes = PopulatedMixtapeSerializer(mixtapes, many=True) 
 
         # return Response ('GET api/mixtapes/ endpoint hit')
         return Response(serialized_mixtapes.data)
