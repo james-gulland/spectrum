@@ -175,16 +175,20 @@ const Home = () => {
             </div>
             <div id="mood-controls">
               <div className="radio-control main">
-              
-                <input type="radio" name="radio2" value="3" id="tab-1" checked/>
+                
+                <input type="radio" name="radio2" value="4" id="tab-0" defaultChecked/>
+                <label htmlFor="tab-0" className="radio-control__0">
+                  <p>All</p></label>
+
+                <input type="radio" name="radio2" value="1" id="tab-1"/>
                 <label htmlFor="tab-1" className="radio-control__1">
                   <p>Focus</p></label>
                 
-                <input type="radio" name="radio2" value="4" id="tab-2" />
+                <input type="radio" name="radio2" value="2" id="tab-2" />
                 <label htmlFor="tab-2" className="radio-control__2">
                   <p>Chill</p></label>
                 
-                <input type="radio" name="radio2" value="5" id="tab-3" />
+                <input type="radio" name="radio2" value="3" id="tab-3" />
                 <label htmlFor="tab-3" className="radio-control__3">
                   <p>Energy</p></label>
                 

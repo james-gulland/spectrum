@@ -146,7 +146,7 @@
     color: var(--primary);
     }
 
-  &__1, &__2, &__3 {
+  &__0, &__1, &__2, &__3 {
     width: 6.8rem;
     height: 2.6rem;
     font-size: 1.4rem;
@@ -163,7 +163,7 @@
   &__color {
     position: absolute;
     height: 2.4rem;
-    width: 6.2rem;
+    width: 4.4rem;
     margin-left: .3rem;
     border-radius: .8rem;
     box-shadow: $inner-shadow;
@@ -171,16 +171,20 @@
   }
 }
 
-#tab-1:checked ~ .radio-control__color {
+#tab-0:checked ~ .radio-control__color {
   transform: translateX(0);
   transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
+#tab-1:checked ~ .radio-control__color {
+  transform: translateX(5rem);
+  transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
 #tab-2:checked ~ .radio-control__color {
-  transform: translateX(6.8rem);
+  transform: translateX(10rem);
   transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 #tab-3:checked ~ .radio-control__color {
-  transform: translateX(13.6rem);
+  transform: translateX(15rem);
   transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
