@@ -37,10 +37,11 @@ const Home = () => {
   useEffect(() => {
     const getData = async () => {
       try { 
-        // const { data } = await axios.get('/api/mixtapes/')
-        const { data } = await authenticated.get('/api/mixtapes/')
-        setMixtapes(data)
-        console.log(data)
+        if (isAuthenticated()){
+          const { data } = await authenticated.get('/api/mixtapes/')
+          setMixtapes(data)
+          console.log(data)
+        }
       } catch (err) {
         console.log(err)
       }
@@ -58,7 +59,7 @@ const Home = () => {
     if (isOverflowing) {
       setTimeout(() => {
         marqueeTextElement.classList.add('scroll')
-        console.log(marqueeTextElement.offsetWidth, marqueeRef.current.offsetWidth)
+        // console.log(marqueeTextElement.offsetWidth, marqueeRef.current.offsetWidth)
       }, 0)
     }
   }, [playing])
@@ -244,7 +245,7 @@ const Home = () => {
           })
           :
           <>
-            {console.log('error')}
+            {console.log('No mixtapes found')}
           </>
         }
         {isAuthenticated() ?
