@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import ReactPlayer from 'react-player'
-import { Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
 
 import { authenticated } from '../helpers/auth'
@@ -13,6 +13,7 @@ const Add = () => {
   const [validatedUrl, setValidatedUrl] = useState('')
   const [playerReady, setPlayerReady] = useState(false)
   const youTubeKey = 'AIzaSyA-tefLld1cTIuwnl2EvQVgmJp2uyf2iZU'
+  const navigate = useNavigate()
 
   const [ mixtapeFields, setMixtapeFields ] = useState({
     track_name: '',
@@ -30,13 +31,19 @@ const Add = () => {
   // function called when the mixtape is loaded via 'Load' button
   // it will checked to make sure the URL is valid. if ok, sets in state for ReactPlayer to use, otherwise throws an error.
   function handleLoadClick() {
+    // setMixtapeFields(initialMixtapeFields)
     const urlRegex = /^(?:(?:http|https):\/\/)?(?:www\.)?(?:soundcloud\.com|youtu(?:be\.com|\.be)|mixcloud\.com)\/.+$/    
     const isValidInputUrl = urlRegex.test(url)
-    console.log('defining url', isValidInputUrl)
+
+    // console.log('defining url', isValidInputUrl)
     if (isValidInputUrl){
 
       // set valid URL to show in ReactPlayer
       setValidatedUrl(url)
+      
+      // console.log('Before reset ->', mixtapeFields)
+      // setMixtapeFields(initialMixtapeFields)
+      // console.log('After reset ->', mixtapeFields)
 
       // check channel source of URL and add to state along with the URL
       const channelSource = checkChannelSource(url)
@@ -71,6 +78,19 @@ const Add = () => {
     } else {
       setLedText('Please enter correct URL...')
     }
+  }
+
+  const initialMixtapeFields = {
+    track_name: '',
+    artist_name: '',
+    genre: '',
+    channel_source: '',
+    source_url: '',
+    artwork_url: '',
+    start_time: null,
+    end_time: null,
+    release_date: null,
+    moods: [4], // add 'default' if none entered
   }
 
   function checkChannelSource(url){
@@ -201,6 +221,7 @@ const Add = () => {
       // const { data } = await axios.post('/api/mixtapes/', mixtapeFields)
       const { data } = await authenticated.post('/api/mixtapes/', mixtapeFields)
       console.log('stored add data success ->', data)
+      navigate('/')
     } catch (err) {
       console.log('error', err.response.statusText)
       setLedText(`Error! ${err.response.statusText}`)
@@ -210,14 +231,14 @@ const Add = () => {
 
   // Once the player has loaded properly, and is ready, then we read and save the data to state.
   useEffect(() => {
-    if (playerReady) {
+    if (playerReady && validatedUrl) {
       if (mixtapeFields.channel_source === 'soundcloud'){
         handleSCLoad()
       } else if (mixtapeFields.channel_source === 'youtube') {
         handleYTLoad()
       }
     }
-  }, [playerReady])
+  }, [playerReady, validatedUrl])
 
   useEffect(() => {
     const marqueeTextElement = marqueeRef.current.querySelector('.marquee-text')
