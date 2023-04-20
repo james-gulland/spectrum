@@ -96,7 +96,7 @@
 
   #progress-bar-container {
     width: 100%;
-    margin: 0 3em;
+    margin: 0 2em;
   }
 }
 
@@ -131,10 +131,13 @@
 
   .mixtape-card-info {
     width: 100%;
-    padding: 1rem;
     // color: var(--greyDark);
     font-family: $main-font;
     font-size: 1.25rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 1rem;
 
     .artist-name {
       font-weight: bold;
@@ -142,6 +145,12 @@
 
     .artist-name, .track-name {
       margin-bottom: 0.5rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .source-icon {
+      // vertical-align: auto;
     }
 
     &:hover, &.checked { color: var(--primary); }

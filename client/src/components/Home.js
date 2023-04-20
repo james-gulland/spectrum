@@ -3,6 +3,8 @@ import axios from 'axios'
 import ReactPlayer from 'react-player'
 import { getUserID, authenticated, isAuthenticated } from '../helpers/auth'
 import { Link } from 'react-router-dom'
+import WaveSurfer from 'wavesurfer.js'
+// import 'wavesurfer.js/dist/wavesurfer.css'
 
 const Home = () => {
 
@@ -55,8 +57,7 @@ const Home = () => {
   useEffect(() => {
     const marqueeTextElement = marqueeRef.current.querySelector('.marquee-text')
     const isOverflowing = marqueeTextElement.offsetWidth > marqueeRef.current.offsetWidth
-
-    console.log(marqueeTextElement.offsetWidth, marqueeRef.current.offsetWidth)
+    // console.log(marqueeTextElement.offsetWidth, marqueeRef.current.offsetWidth)
 
     if (isOverflowing) {
       setTimeout(() => {
@@ -142,6 +143,8 @@ const Home = () => {
     }
   }
 
+  
+
   return (
     <>
       <div id="control-container" className="container">
@@ -152,7 +155,6 @@ const Home = () => {
           <div id="control-player-container">
             {currentSource === 'youtube' ? (
               <ReactPlayer className="react-player" playing={playing} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onProgress={handleProgress} onDuration={setCurrentMaxDuration}
-              // <ReactPlayer className="react-player" playing={playing} onStart={handleStart} onProgress={handlePlayTimer} onPlay={handlePlayButtonClick} onPause={handlePlayButtonClick}
                 url={currentSourceUrl}
                 ref={reactPlayerRef}
                 volume={currentVolume}
@@ -168,7 +170,6 @@ const Home = () => {
               <>
                 <img src={currentArtworkUrl ? currentArtworkUrl : 'https://images.unsplash.com/photo-1610337673044-720471f83677?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1372&q=80'}></img>
                 <ReactPlayer className="react-player" playing={playing} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onProgress={handleProgress} onDuration={setCurrentMaxDuration}
-                // <ReactPlayer className="react-player" playing={playing} onStart={handleStart} onProgress={handlePlayTimer} onPlay={handlePlayButtonClick} onPause={handlePlayButtonClick}
                   url={currentSourceUrl}
                   ref={reactPlayerRef}
                   volume={currentVolume}
@@ -245,7 +246,8 @@ const Home = () => {
             <span className="circle__back-2 paused" ref={wave2Ref}></span>
           </div>
           <div id="progress-bar-container">
-            <input type="range" name="seek" id="progress-bar" value={currentTime} min="0" max={currentMaxDuration} onChange={handleSeek}/></div>
+            <input type="range" name="seek" id="progress-bar" value={currentTime} min="0" max={currentMaxDuration} onChange={handleSeek}/>
+          </div>
         </div>
       </div>
       {/* <div>
