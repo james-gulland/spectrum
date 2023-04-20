@@ -31,11 +31,14 @@ export const getToken = () => {
   return localStorage.getItem(tokenName)
 }
 
-export const authenticated = axios.create({
-  baseURL: '',
-  headers: {
-    Authorization: `Bearer ${getToken()}`,
-  },
+export const authenticated = axios.create()
+authenticated.interceptors.request.use(config => {
+  // Update config object on axios instance
+  // Here we're adding an authorization header to the already existing config headers, with the value of Bearer and our token
+  config.headers['Authorization'] = `Bearer ${getToken()}`
+
+  // Return the updated config object
+  return config
 })
 
 export const userIsOwner = (mixtape) => {
