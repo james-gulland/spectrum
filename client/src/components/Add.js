@@ -1,6 +1,9 @@
 import { useEffect, useState, useRef } from 'react'
 import ReactPlayer from 'react-player'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+
+import { authenticated } from '../helpers/auth'
 
 const Add = () => {
   
@@ -9,6 +12,7 @@ const Add = () => {
   const [url, setUrl] = useState('')
   const [validatedUrl, setValidatedUrl] = useState('')
   const [playerReady, setPlayerReady] = useState(false)
+  const youTubeKey = 'AIzaSyA-tefLld1cTIuwnl2EvQVgmJp2uyf2iZU'
 
   const [ mixtapeFields, setMixtapeFields ] = useState({
     track_name: '',
@@ -17,15 +21,18 @@ const Add = () => {
     channel_source: '',
     source_url: '',
     artwork_url: '',
-    start_time: '',
-    end_time: '',
-    release_date: '',
-    moods: [],
+    start_time: null,
+    end_time: null,
+    release_date: null,
+    moods: [4], // add 'default' if none entered
   })
 
-  async function handleLoadClick() {
+  // function called when the mixtape is loaded via 'Load' button
+  // it will checked to make sure the URL is valid. if ok, sets in state for ReactPlayer to use, otherwise throws an error.
+  function handleLoadClick() {
     const urlRegex = /^(?:(?:http|https):\/\/)?(?:www\.)?(?:soundcloud\.com|youtu(?:be\.com|\.be)|mixcloud\.com)\/.+$/    
     const isValidInputUrl = urlRegex.test(url)
+    console.log('defining url', isValidInputUrl)
     if (isValidInputUrl){
 
       // set valid URL to show in ReactPlayer
@@ -39,12 +46,28 @@ const Add = () => {
         channel_source: channelSource,
       })
 
+      // setMixtapeFields(prevFields => ({
+      //   ...prevFields,
+      //   source_url: url,
+      //   channel_source: channelSource,
+      // }))
+
       // metadata is retrieved only once the player has properly loaded.
       // please see useEffect below for that. below function is now redundant.
-      // a lot of pain was had figuring this out lols.
+      // a lot of pain was had figuring this out.
       // getSCMetadata()
 
-      setLedText('Sick track :-)')
+      // console.log(playerReady)
+      // if (playerReady) {
+      //   if (channelSource === 'soundcloud'){
+      //     handleSCLoad()
+      //   } else if (channelSource === 'youtube') {
+      //     handleYTLoad()
+      //   }
+      // }
+      
+      // set success message
+      setLedText('Sick mix :-)')
     } else {
       setLedText('Please enter correct URL...')
     }
@@ -62,36 +85,70 @@ const Add = () => {
     }
   }
 
-  // function getSCMetadata() {
-  //   const player = document.querySelector('iframe')
-  //   if (player) {
-  //     console.log('player loaded successfully')
-  //     handleSCLoad()
-  //   } else {
-  //     player.addEventListener('load', handleSCLoad)
-  //     console.log('player failed to load')
-  //   }
-  // }
-
+  // purpose of this function is to retrieve soundcloud metadata to store in state (and therefore to db once added)
+  // called once the ReactPlayer is ready (onReady) and if mixtape is a Soundcloud track
+  // NOTE: this is a hacky way of retrieving metadata since the official APIs are no longer available to developers
+  // Instead, I found hidden documentation that retrives data from the SC Widget API instead (and it works!)
   function handleSCLoad() {
     const player = document.querySelector('iframe')
     const widget = window.SC.Widget(player)
 
     return new Promise((resolve, reject) => {
       widget.getCurrentSound((metadata) => {
+        
+        // widget returns low quality thumbnail so changing to high quality
+        const originalArtworkUrl = metadata.artwork_url
+        const higherQualityArtwork = originalArtworkUrl.replace(/-large\.jpg$/, '-t500x500.jpg')
+        metadata.artwork_url = higherQualityArtwork
+
         setMixtapeFields({
           ...mixtapeFields,
           track_name: metadata.title,
           artist_name: metadata.user.username,
           genre: metadata.genre,
           artwork_url: metadata.artwork_url,
-          end_time: metadata.duration,
+          // end_time: metadata.duration,
         })
         resolve(metadata)
       }, (error) => {
         reject(error)
       })
     })
+  }
+
+  // purpose of this function is to retrieve youtube metadata to store in state (and therefore to db once added)
+  // called once the ReactPlayer is ready (onReady) and if mixtape is a Soundcloud track
+  // NOTE: this is the official youtube Data API and is really nice to use and powerful. They are open for developers :)
+  function handleYTLoad() {
+    const getData = async () => {
+      try {
+        // take validated url and identifies the unique ID of the video, to pass through to API
+        console.log('url to validate ->', url)
+        const youtubeUrl = new URL(validatedUrl)
+        const videoId = youtubeUrl.searchParams.get('v')
+        console.log(videoId)
+        
+        // get the youtube API data from the unique ID
+        const { data } = await axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${youTubeKey}&part=snippet,contentDetails,statistics,status`)    
+        // console.log('youtube data success ->', data.items[0].snippet)
+        
+        // store data to state
+        const { items: [{ snippet }] } = data
+        setMixtapeFields({
+          ...mixtapeFields,
+          track_name: snippet.title,
+          artist_name: snippet.channelTitle,
+          // genre: snippet.genre,
+          artwork_url: snippet.thumbnails.medium.url,
+          // end_time: snippet.duration,
+        })
+
+      } catch (err) {
+        console.log('didnt load data!', err)
+      }
+
+    }
+    getData()
   }
 
   // handling input change for LOGIN fields
@@ -136,8 +193,19 @@ const Add = () => {
     })
   }
 
-  function handleRegisterSubmit() {
-
+  // form submit - send track data to database
+  const handleAddSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      console.log('Trying to save data...')
+      // const { data } = await axios.post('/api/mixtapes/', mixtapeFields)
+      const { data } = await authenticated.post('/api/mixtapes/', mixtapeFields)
+      console.log('stored add data success ->', data)
+    } catch (err) {
+      console.log('error', err.response.statusText)
+      setLedText(`Error! ${err.response.statusText}`)
+      // setLedText(err.response.data.message)
+    }
   }
 
   // Once the player has loaded properly, and is ready, then we read and save the data to state.
@@ -145,6 +213,8 @@ const Add = () => {
     if (playerReady) {
       if (mixtapeFields.channel_source === 'soundcloud'){
         handleSCLoad()
+      } else if (mixtapeFields.channel_source === 'youtube') {
+        handleYTLoad()
       }
     }
   }, [playerReady])
@@ -215,7 +285,7 @@ const Add = () => {
 
           {/* PREVIEW FORM */}
           <div id="preview-fields">
-            <form className="add-mixtape-form" onSubmit={handleRegisterSubmit}>
+            <form className="add-mixtape-form" onSubmit={handleAddSubmit}>
               <div>
                 <label htmlFor="track_name">Mixtape name:</label>
                 <input
