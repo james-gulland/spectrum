@@ -279,16 +279,28 @@ const Home = () => {
         }
         {isAuthenticated() ?
           <>
-            <Link className="add" to={'/add'} as={Link}>
-              <div className="mixtape-card checked">
-                <div>Add</div>
-              </div> 
+            <Link to={'/add'} as={Link}>
+              <div className="mixtape-card">
+                <div id="add-artwork" className="mixtape-card-artwork">
+                  {/* <ion-icon class="pause" className="add-icon"></ion-icon> */}
+                  <ion-icon id="add" name="add-outline"></ion-icon>
+                </div>
+                <div className="mixtape-card-info">
+                  <div className="artist-name">Add a mixtape</div>
+                  <div className="track-name">Save to your profile</div>
+                </div>
+              </div>
             </Link> 
           </>
           :
           <>
             <Link className="hi" to={'hi'} as={Link}>
-              <div className="mixtape-card checked">
+              <div className="mixtape-card">
+                <div className="circle">
+                  <span className="circle__btn">
+                    <ion-icon className="profile" name="add-circle-outline"></ion-icon>
+                  </span>
+                </div>
                 <div>Add</div>
               </div>
             </Link>

@@ -127,6 +127,14 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    display: flex;
+
+    &#add-artwork {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    // &:hover, &.checked { color: var(--primary); }
   }
 
   .mixtape-card-info {
@@ -148,14 +156,12 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
-    .source-icon {
-      // vertical-align: auto;
-    }
-
-    &:hover, &.checked { color: var(--primary); }
-
   }
+}
+
+.mixtape-card:hover #add,
+.mixtape-card:hover .mixtape-card-info {
+  color: var(--primary);
 }
 
 // LOGIN & REGISTER LAYOUT
