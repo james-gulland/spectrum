@@ -97,6 +97,22 @@
   #progress-bar-container {
     width: 100%;
     margin: 0 2em;
+    position: relative;
+
+    & #current-time-label {
+      font-family: $main-font;
+      font-size: 1.25rem;
+      position: absolute;
+      margin-top: 0.5rem;
+    }
+    & #max-duration-label {
+      font-family: $main-font;
+      font-size: 1.25rem;
+      position: absolute;
+      right: 0;
+      margin-top: 0.5rem;
+    }
+
   }
 }
 

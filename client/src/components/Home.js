@@ -117,6 +117,13 @@ const Home = () => {
     reactPlayerRef.current.seekTo(seekTime)
   }
 
+  function formatTime(totalSeconds) {
+    const minutes = Math.floor(totalSeconds / 60)
+    const seconds = Math.round(totalSeconds % 60)
+    const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds
+    return `${minutes}:${formattedSeconds}`
+  }
+
   const handleMoodChange = (e) => {
     // setSelectedMood(Number(e.target.value)) // convert value to number
     setSelectedMood(e.target.value)
@@ -142,8 +149,6 @@ const Home = () => {
       return <ion-icon name="cloud"></ion-icon>
     }
   }
-
-  
 
   return (
     <>
@@ -247,6 +252,8 @@ const Home = () => {
           </div>
           <div id="progress-bar-container">
             <input type="range" name="seek" id="progress-bar" value={currentTime} min="0" max={currentMaxDuration} onChange={handleSeek}/>
+            <div id="current-time-label">{formatTime(currentTime)}</div>
+            <div id="max-duration-label">{formatTime(currentMaxDuration)}</div>
           </div>
         </div>
       </div>
@@ -296,12 +303,14 @@ const Home = () => {
           <>
             <Link className="hi" to={'hi'} as={Link}>
               <div className="mixtape-card">
-                <div className="circle">
-                  <span className="circle__btn">
-                    <ion-icon className="profile" name="add-circle-outline"></ion-icon>
-                  </span>
+                <div id="add-artwork" className="mixtape-card-artwork">
+                  {/* <ion-icon class="pause" className="add-icon"></ion-icon> */}
+                  <ion-icon id="add" name="add-outline"></ion-icon>
                 </div>
-                <div>Add</div>
+                <div className="mixtape-card-info">
+                  <div className="artist-name">Add a mixtape</div>
+                  <div className="track-name">Save to your profile</div>
+                </div>
               </div>
             </Link>
           </>
