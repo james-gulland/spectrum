@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './components/Home'
 import LoginRegister from './components/auth/LoginRegister'
 import Add from './components/Add'
+import Profile from './components/auth/Profile'
 
 const App = () => {
 
@@ -14,6 +15,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/hi" element={<LoginRegister />} />
           <Route path="/add" element={<Add />} />
+          <Route path="/profile/:profileId" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </div>

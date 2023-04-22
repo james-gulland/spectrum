@@ -334,7 +334,7 @@ input[type=range]#progress-bar::-webkit-slider-thumb {
 }
 
 // ICONS FOR NAVIGATION
-#profile, #home, #add {
+#profile, #home, #add, #delete, #logout {
   width: 50px;
   height: 50px;
   // width: 4rem;
@@ -360,10 +360,23 @@ input[type=range]#progress-bar::-webkit-slider-thumb {
   &:hover {color: var(--primary);}
 }
 
-#add {
+#add, #delete {
   width: 5rem;
   height: 5rem;
 }
+
+.delete-section {
+  display: grid;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  #delete {
+    &:hover {color: #cc001b;}
+  }
+}
+
+
+
 
  /*  BUTTONS  */
 

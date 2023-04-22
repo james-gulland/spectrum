@@ -5,7 +5,7 @@
 }
 
 // BOSS-LEVEL CONTAINERS ONLY
-#control-container, #login-container, #add-container {
+#control-container, #login-container, #add-container, #profile-container {
   border-radius: 3rem;
   box-shadow: $container-shadow;
 }
@@ -180,6 +180,18 @@
   color: var(--primary);
 }
 
+// GRID FOR PROFILE PAGE
+#grid-profile-container .mixtape-card {
+  max-width: 40rem;
+  margin: 1rem auto;
+  grid-template-columns: 1fr 2fr 1fr;
+}
+
+#grid-profile-container .mixtape-card:first-child {
+  margin: 0 auto;
+}
+
+
 // LOGIN & REGISTER LAYOUT
 #login-form-container {
 
@@ -234,5 +246,20 @@
         margin-bottom: 0.25rem;
       }
     }
+  }
+
+}
+
+// PROFILE PAGE LAYOUT
+#change-profile-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  #change-user-container, #change-mood-container {
+    padding: 2rem;
+  }
+
+  #mood-controls #mood-radio {
+    margin-top: 0.5rem;
   }
 }
