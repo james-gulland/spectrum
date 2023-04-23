@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import ReactPlayer from 'react-player'
 import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
-
+// import 'dotenv/config'
 import { authenticated } from '../helpers/auth'
 
 const Add = () => {
@@ -13,7 +13,7 @@ const Add = () => {
   const [validatedUrl, setValidatedUrl] = useState('')
   const [playerReady, setPlayerReady] = useState(false)
   const youTubeKey = 'AIzaSyA-tefLld1cTIuwnl2EvQVgmJp2uyf2iZU'
-  const navigate = useNavigate()
+  const navigate = useNavigate()  
 
   const [ mixtapeFields, setMixtapeFields ] = useState({
     track_name: '',
@@ -126,6 +126,7 @@ const Add = () => {
         
         // get the youtube API data from the unique ID
         const { data } = await axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${youTubeKey}&part=snippet,contentDetails,statistics,status`)    
+        // const { data } = await axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${process.env.YOUTUBE_KEY}&part=snippet,contentDetails,statistics,status`)    
         // console.log('youtube data success ->', data.items[0].snippet)
         
         // store data to state

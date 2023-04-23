@@ -1,0 +1,273 @@
+[
+{
+  "model": "mixtapes.mixtape",
+  "pk": 1,
+  "fields": {
+    "owner": 2,
+    "track_name": "Afterglow",
+    "artist_name": "Triangle",
+    "genre": "Drum & Bass",
+    "channel_source": "soundcloud",
+    "source_url": "https://soundcloud.com/trianglednb/triangle-afterglow",
+    "artwork_url": "https://i1.sndcdn.com/artworks-000311052879-vh8ji4-t500x500.jpg",
+    "start_time": null,
+    "end_time": null,
+    "release_date": "2019-04-03T00:00:00Z",
+    "date_added": "2023-04-14T18:27:43.484Z",
+    "moods": [
+      3
+    ]
+  }
+},
+{
+  "model": "mixtapes.mixtape",
+  "pk": 2,
+  "fields": {
+    "owner": 1,
+    "track_name": "Boiler Room Palestine",
+    "artist_name": "Sama Abdulhadi",
+    "genre": "Techno",
+    "channel_source": "youtube",
+    "source_url": "https://youtu.be/x9VYKrtziSg",
+    "artwork_url": "https://i.ytimg.com/vi/x9VYKrtziSg/maxresdefault.jpg",
+    "start_time": "07:33:00",
+    "end_time": null,
+    "release_date": "2019-04-03T09:29:16Z",
+    "date_added": "2023-04-15T09:28:22.373Z",
+    "moods": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "mixtapes.mixtape",
+  "pk": 5,
+  "fields": {
+    "owner": 1,
+    "track_name": "1990s Hip-Hop Tribute",
+    "artist_name": "Side Quest",
+    "genre": "Hip-hop",
+    "channel_source": "soundcloud",
+    "source_url": "https://soundcloud.com/sidequestlondon/triangle-1990s-hip-hop-tribute",
+    "artwork_url": "https://i1.sndcdn.com/artworks-I7jWiuzvh8O6vZxz-uwjRiQ-t500x500.jpg",
+    "start_time": null,
+    "end_time": null,
+    "release_date": "2019-04-03T09:29:16Z",
+    "date_added": "2023-04-15T16:41:05.001Z",
+    "moods": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "mixtapes.mixtape",
+  "pk": 6,
+  "fields": {
+    "owner": 5,
+    "track_name": "Electrologikz",
+    "artist_name": "Side Quest",
+    "genre": "Electronic 2",
+    "channel_source": "soundcloud",
+    "source_url": "https://soundcloud.com/sidequestlondon/triangle-electrologikz",
+    "artwork_url": "https://i1.sndcdn.com/artworks-8AL8OHKAyIskBBSO-9m88Nw-t500x500.jpg",
+    "start_time": null,
+    "end_time": null,
+    "release_date": "2021-04-03T09:29:16Z",
+    "date_added": "2023-04-16T09:36:46.424Z",
+    "moods": [
+      3
+    ]
+  }
+},
+{
+  "model": "mixtapes.mixtape",
+  "pk": 12,
+  "fields": {
+    "owner": 5,
+    "track_name": "VISION Radio S03E13 // NEW Thys & Nicholas Thayer, Klinical, Skrillex & Posij + more!",
+    "artist_name": "VISION",
+    "genre": "",
+    "channel_source": "youtube",
+    "source_url": "https://www.youtube.com/watch?v=dKCzajq-KsE&ab_channel=VISION",
+    "artwork_url": "https://i.ytimg.com/vi/dKCzajq-KsE/mqdefault.jpg",
+    "start_time": null,
+    "end_time": null,
+    "release_date": null,
+    "date_added": "2023-04-20T11:02:04.297Z",
+    "moods": [
+      4
+    ]
+  }
+},
+{
+  "model": "mixtapes.mixtape",
+  "pk": 17,
+  "fields": {
+    "owner": 9,
+    "track_name": "Electrologikz",
+    "artist_name": "Side Quest",
+    "genre": "Electro",
+    "channel_source": "soundcloud",
+    "source_url": "https://soundcloud.com/sidequestlondon/triangle-electrologikz",
+    "artwork_url": "https://i1.sndcdn.com/artworks-8AL8OHKAyIskBBSO-9m88Nw-t500x500.jpg",
+    "start_time": null,
+    "end_time": null,
+    "release_date": null,
+    "date_added": "2023-04-23T08:14:48.423Z",
+    "moods": [
+      3,
+      4
+    ]
+  }
+},
+{
+  "model": "mixtapes.mixtape",
+  "pk": 18,
+  "fields": {
+    "owner": 9,
+    "track_name": "VISION Radio S03E12 // NEW Mefjus & Maksim MC, BSE, William Light & The Caracal Project + more!",
+    "artist_name": "VISION",
+    "genre": "Electro",
+    "channel_source": "youtube",
+    "source_url": "https://www.youtube.com/watch?v=5S3D0gJWhVo&ab_channel=VISION",
+    "artwork_url": "https://i.ytimg.com/vi/5S3D0gJWhVo/mqdefault.jpg",
+    "start_time": null,
+    "end_time": null,
+    "release_date": null,
+    "date_added": "2023-04-23T08:15:07.739Z",
+    "moods": [
+      2,
+      3,
+      4
+    ]
+  }
+},
+{
+  "model": "mixtapes.mixtape",
+  "pk": 19,
+  "fields": {
+    "owner": 9,
+    "track_name": "Negative Space",
+    "artist_name": "Triangle",
+    "genre": "Ambient",
+    "channel_source": "soundcloud",
+    "source_url": "https://soundcloud.com/sidequestlondon/triangle-negative-space",
+    "artwork_url": "https://i1.sndcdn.com/artworks-UATOS7uJdzA3Z7Cg-4zuyyg-t500x500.jpg",
+    "start_time": null,
+    "end_time": null,
+    "release_date": null,
+    "date_added": "2023-04-23T08:15:56.407Z",
+    "moods": [
+      1,
+      4
+    ]
+  }
+},
+{
+  "model": "mixtapes.mixtape",
+  "pk": 20,
+  "fields": {
+    "owner": 9,
+    "track_name": "Sama' Abdulhadi | Boiler Room Palestine",
+    "artist_name": "Boiler Room",
+    "genre": "Techno",
+    "channel_source": "youtube",
+    "source_url": "https://www.youtube.com/watch?v=x9VYKrtziSg&list=PL_YK7Xh5CXQS0V-5BXpH6-HiXOxN5uPcM&index=1&t=1098s&ab_channel=BoilerRoom",
+    "artwork_url": "https://i.ytimg.com/vi/x9VYKrtziSg/mqdefault.jpg",
+    "start_time": null,
+    "end_time": null,
+    "release_date": null,
+    "date_added": "2023-04-23T08:17:01.463Z",
+    "moods": [
+      3,
+      4
+    ]
+  }
+},
+{
+  "model": "mixtapes.mixtape",
+  "pk": 21,
+  "fields": {
+    "owner": 9,
+    "track_name": "Alfa Mist 'Bring Backs' Live at Metropolis",
+    "artist_name": "Alfa Mist",
+    "genre": "Jazz",
+    "channel_source": "youtube",
+    "source_url": "https://www.youtube.com/watch?v=15Nqbic6HZs&ab_channel=AlfaMist",
+    "artwork_url": "https://i.ytimg.com/vi/15Nqbic6HZs/mqdefault.jpg",
+    "start_time": null,
+    "end_time": null,
+    "release_date": null,
+    "date_added": "2023-04-23T08:20:13.214Z",
+    "moods": [
+      1,
+      2,
+      4
+    ]
+  }
+},
+{
+  "model": "mixtapes.mixtape",
+  "pk": 22,
+  "fields": {
+    "owner": 9,
+    "track_name": "Percussive Dub, Spiritual Jazz & Psychedelic Grooves with Millie McKee",
+    "artist_name": "My Analog Journal",
+    "genre": "Jazz",
+    "channel_source": "youtube",
+    "source_url": "https://www.youtube.com/watch?v=Beld090NIoo&ab_channel=MyAnalogJournal",
+    "artwork_url": "https://i.ytimg.com/vi/Beld090NIoo/mqdefault.jpg",
+    "start_time": null,
+    "end_time": null,
+    "release_date": null,
+    "date_added": "2023-04-23T08:22:10.059Z",
+    "moods": [
+      2,
+      4
+    ]
+  }
+},
+{
+  "model": "mixtapes.mixtape",
+  "pk": 24,
+  "fields": {
+    "owner": 5,
+    "track_name": "Alfa Mist 'Bring Backs' Live at Metropolis",
+    "artist_name": "Alfa Mist",
+    "genre": "",
+    "channel_source": "youtube",
+    "source_url": "https://www.youtube.com/watch?v=15Nqbic6HZs&ab_channel=AlfaMist",
+    "artwork_url": "https://i.ytimg.com/vi/15Nqbic6HZs/mqdefault.jpg",
+    "start_time": null,
+    "end_time": null,
+    "release_date": null,
+    "date_added": "2023-04-23T14:00:46.399Z",
+    "moods": [
+      4
+    ]
+  }
+},
+{
+  "model": "mixtapes.mixtape",
+  "pk": 25,
+  "fields": {
+    "owner": 5,
+    "track_name": "Percussive Dub, Spiritual Jazz & Psychedelic Grooves with Millie McKee",
+    "artist_name": "My Analog Journal",
+    "genre": "",
+    "channel_source": "youtube",
+    "source_url": "https://www.youtube.com/watch?v=Beld090NIoo&ab_channel=MyAnalogJournal",
+    "artwork_url": "https://i.ytimg.com/vi/Beld090NIoo/mqdefault.jpg",
+    "start_time": null,
+    "end_time": null,
+    "release_date": null,
+    "date_added": "2023-04-23T14:12:17.893Z",
+    "moods": [
+      4
+    ]
+  }
+}
+]

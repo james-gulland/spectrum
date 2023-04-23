@@ -26,7 +26,6 @@ const Home = () => {
   const [ledText, setLedText] = useState('Welcome to Spectrum')
 
   // REF: references to html elements to target functionality
-  
   const reactPlayerRef = useRef(null)
   const playBtnRef = useRef(null)
   const playRef = useRef(null)
