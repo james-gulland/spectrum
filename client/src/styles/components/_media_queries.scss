@@ -1,0 +1,139 @@
+@media only screen and (max-width: 930px) {
+  #grid-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5em;
+  }
+
+  #control-main-container {
+
+    #control-led-container {
+
+      #mood-controls {
+        margin-top: 1rem;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 800px) {
+
+  #control-main-container {
+    // display: flex;
+    padding-right: 0;
+    grid-template-columns: 1fr 10%;
+
+    #control-player-container {
+      display: none;
+    }
+
+    #control-led-container {
+      #mood-controls {
+        margin-top: 1rem;
+      }
+    }
+    
+    #control-volume-container {
+      padding: 0;
+      text-align: end;
+      #volume-container {
+        display: none;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    margin: 1rem;
+    padding: 0;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  #control-container, #login-container, #add-container, #profile-container {
+    border-radius: none;
+    box-shadow: none;
+  }
+
+  #control-container {
+    margin: 0 0 2rem 0;
+    #control-main-container {
+      margin: 0.5rem 0;
+      display: flex;
+      padding: 0;
+      width: 100%;
+      gap: 0.5rem;
+
+      #control-led-container {
+        // width: 60%;
+
+        #marquee {
+          width: 100%;
+        }
+
+        #mood-controls {
+          // width: 100%;
+          // justify-content: start;
+          display: none;
+        }
+      }
+    }
+  
+    #control-seek-container {
+      display: flex;
+      
+      .circle {
+        margin: 0.5rem;
+      }
+
+      #progress-bar-container {
+        margin: 0.75rem;
+        
+        #current-time-label, #max-duration-label {
+          font-size: 1.25rem;
+        }
+      }
+
+    }
+  #profile {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+  #control-seek-container {
+    display: block;
+    
+    .circle {
+      width: 4rem;
+
+      &__btn {
+        width: 3rem;
+        height: 3rem;
+        font-size: 2rem;
+      }
+
+      &__back-1, &__back-2 {
+        width: 3rem;
+        height: 3rem;
+      }
+
+    
+    }
+  }
+
+  #grid-container {
+    display: block;
+    // grid-template-columns: 1fr 1fr 1fr;
+    // gap: 1.5em;
+  }
+
+  .mixtape-card {
+    margin-bottom: 1rem;
+  }
+
+  
+
+}
