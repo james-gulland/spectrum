@@ -88,7 +88,7 @@
     margin: 0 0 2rem 0;
     #control-main-container {
       margin: 0.5rem 0;
-      display: flex;
+      display: grid;
       padding: 0;
       width: 100%;
       gap: 0.5rem;
@@ -105,6 +105,10 @@
           // justify-content: start;
           display: none;
         }
+      }
+
+      #control-volume-container {
+        align-items: center;
       }
     }
   
