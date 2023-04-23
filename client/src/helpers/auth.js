@@ -24,6 +24,7 @@ export const isAuthenticated = () => {
 export const getUserID = () => {
   const payload = getPayload() // get payload object containing the expiry date under the exp key
   if (!payload) return false // if it's undefined, it doesn't exist and so we return false
+  console.log('payload data', payload)
   return payload.sub // finally we check if the expiry is bigger than the current timestamp, if it is, it's valid
 }
 

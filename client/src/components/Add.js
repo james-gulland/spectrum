@@ -50,7 +50,7 @@ const Add = () => {
       })
       
       // set success message
-      setLedText('Sick mix :-)')
+      setLedText('Sick mix ;-)')
     } else {
       setLedText('Please enter correct URL...')
     }
@@ -85,7 +85,7 @@ const Add = () => {
   // called once the ReactPlayer is ready (onReady) and if mixtape is a Soundcloud track
   // NOTE: this is a hacky way of retrieving metadata since the official APIs are no longer available to developers
   // Instead, I found hidden documentation that retrives data from the SC Widget API instead (and it works!)
-  function handleSCLoad() {
+  async function handleSCLoad() {
     const player = document.querySelector('iframe')
     const widget = window.SC.Widget(player)
 

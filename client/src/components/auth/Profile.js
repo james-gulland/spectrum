@@ -1,13 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState, useRef } from 'react'
 import { authenticated, removeToken } from '../../helpers/auth'
-import axios from 'axios'
 
 const Profile = () => {
 
   const marqueeRef = useRef(null)
   const [ledText, setLedText] = useState('Manage ur profile')
   const [mixtapes, setMixtapes] = useState([])
+  
   const navigate = useNavigate()
 
   const handleLogOut = () => {

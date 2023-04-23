@@ -3,8 +3,6 @@ import axios from 'axios'
 import ReactPlayer from 'react-player'
 import { getUserID, authenticated, isAuthenticated } from '../helpers/auth'
 import { Link } from 'react-router-dom'
-import WaveSurfer from 'wavesurfer.js'
-// import 'wavesurfer.js/dist/wavesurfer.css'
 
 const Home = () => {
 
@@ -45,6 +43,7 @@ const Home = () => {
           const { data } = await authenticated.get('/api/mixtapes/')
           setMixtapes(data)
           console.log(data)
+          console.log('user id:', getUserID())
         }
       } catch (err) {
         console.log(err)
@@ -252,8 +251,12 @@ const Home = () => {
           </div>
           <div id="progress-bar-container">
             <input type="range" name="seek" id="progress-bar" value={currentTime} min="0" max={currentMaxDuration} onChange={handleSeek}/>
-            <div id="current-time-label">{formatTime(currentTime)}</div>
-            <div id="max-duration-label">{formatTime(currentMaxDuration)}</div>
+            {currentArtist ? (
+              <>
+                <div id="current-time-label">{formatTime(currentTime)}</div>
+                <div id="max-duration-label">{formatTime(currentMaxDuration)}</div>
+              </>
+            ) : null}
           </div>
         </div>
       </div>
