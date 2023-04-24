@@ -1,7 +1,7 @@
 // ALL CONTAINERS
 .container {
   margin: 2rem 3rem;
-  padding: 1rem;
+  padding: 1rem 1rem 0 1rem;
 }
 
 // BOSS-LEVEL CONTAINERS ONLY
@@ -24,6 +24,7 @@
     box-shadow: $shadow;
     position: relative;
     padding-top: 56.25%;  // this is for apsect ratio friendly containers.  Read here: https://css-tricks.com/aspect-ratio-boxes/
+    margin: 0 0.5rem;
 
     .react-player, > img {
       position: absolute;

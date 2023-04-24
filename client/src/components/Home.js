@@ -3,6 +3,8 @@ import axios from 'axios'
 import ReactPlayer from 'react-player'
 import { getUserID, authenticated, isAuthenticated } from '../helpers/auth'
 import { Link } from 'react-router-dom'
+// import spectrumWave from '../images/spectrum-wave.jpeg'
+import spectrumWave from '../images/geometric.jpeg'
 
 const Home = () => {
 
@@ -171,7 +173,8 @@ const Home = () => {
               />
             ) : (
               <>
-                <img src={currentArtworkUrl ? currentArtworkUrl : 'https://images.unsplash.com/photo-1610337673044-720471f83677?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1372&q=80'}></img>
+                {/* <img src={currentArtworkUrl ? currentArtworkUrl : 'https://images.unsplash.com/photo-1610337673044-720471f83677?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1372&q=80'}></img> */}
+                <img src={currentArtworkUrl ? currentArtworkUrl : spectrumWave}></img>
                 <ReactPlayer className="react-player" playing={playing} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onProgress={handleProgress} onDuration={setCurrentMaxDuration}
                   url={currentSourceUrl}
                   ref={reactPlayerRef}
