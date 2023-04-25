@@ -1,0 +1,34 @@
+[
+{
+  "model": "moods.mood",
+  "pk": 1,
+  "fields": {
+    "name": "focus",
+    "ui_colour": "94b8dc"
+  }
+},
+{
+  "model": "moods.mood",
+  "pk": 2,
+  "fields": {
+    "name": "chill",
+    "ui_colour": "79d2b6"
+  }
+},
+{
+  "model": "moods.mood",
+  "pk": 3,
+  "fields": {
+    "name": "energy",
+    "ui_colour": "cc001b"
+  }
+},
+{
+  "model": "moods.mood",
+  "pk": 4,
+  "fields": {
+    "name": "default",
+    "ui_colour": "6d5dfc"
+  }
+}
+]
