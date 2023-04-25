@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from 'react'
 import ReactPlayer from 'react-player'
 import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
-// import 'dotenv/config'
 import { authenticated } from '../helpers/auth'
 
 const Add = () => {
@@ -12,7 +11,7 @@ const Add = () => {
   const [url, setUrl] = useState('')
   const [validatedUrl, setValidatedUrl] = useState('')
   const [playerReady, setPlayerReady] = useState(false)
-  const youTubeKey = 'AIzaSyA-tefLld1cTIuwnl2EvQVgmJp2uyf2iZU'
+  const youTubeKey = process.env.REACT_APP_YOUTUBE_KEY
   const navigate = useNavigate()  
 
   const [ mixtapeFields, setMixtapeFields ] = useState({
