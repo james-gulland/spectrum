@@ -56,16 +56,21 @@ const Profile = () => {
     console.log('delete pressed', idToDelete)
     const deleteMixtape = async () => {
       try {
-        await authenticated.delete(`/api/mixtapes/${idToDelete}`)
-        const updatedMixtapes = mixtapes.filter(mixtape => mixtape.id !== idToDelete)
-        setMixtapes(updatedMixtapes)
+        console.log('got through to delete mixtape...')
+        await authenticated.delete(`/api/mixtapes/${idToDelete}/`)
+        console.log('should have completed delete now...')
+        // const updatedMixtapes = mixtapes.filter(mixtape => mixtape.id !== idToDelete)
+        setMixtapes(prevMixtapes => prevMixtapes.filter(mixtape => mixtape.id !== idToDelete))
+        console.log(mixtapes)
+        // setMixtapes(updatedMixtapes)
       } catch (err) {
         console.log(err)
         // setError(err.message)
       }
-      displayMixtapes()
+      // displayMixtapes()
     }
     deleteMixtape()
+    // console.log(mixtapes)
   }
 
   // ! On Mount
@@ -81,6 +86,10 @@ const Profile = () => {
     }
     getData()
   }, [])
+
+  useEffect(() => {
+    displayMixtapes()
+  }, [mixtapes])
 
   return (
     <>
