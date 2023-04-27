@@ -3,8 +3,15 @@ import Home from './components/Home'
 import LoginRegister from './components/auth/LoginRegister'
 import Add from './components/Add'
 import Profile from './components/auth/Profile'
+import icon from './favicon.ico'
+import { useEffect } from 'react'
 
 const App = () => {
+
+  useEffect(() => {
+    const favicon = document.getElementById('favicon')
+    favicon.setAttribute('href', icon)
+  }, [])
 
   return (
     <div className='site-wrapper'>
