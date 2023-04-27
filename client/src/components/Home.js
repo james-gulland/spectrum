@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from 'react'
-import axios from 'axios'
 import ReactPlayer from 'react-player'
 import { getUserID, authenticated, isAuthenticated } from '../helpers/auth'
 import { Link } from 'react-router-dom'
@@ -43,7 +42,6 @@ const Home = () => {
           const { data } = await authenticated.get('/api/mixtapes/')
           setMixtapes(data)
           console.log(data)
-          console.log('user id:', getUserID())
         }
       } catch (err) {
         console.log(err)
