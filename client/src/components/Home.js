@@ -165,9 +165,9 @@ const Home = () => {
                 width='100%'
                 height='100%'
                 config={{
-                  youtube: {
-                    options: { visual: false, show_artwork: false }, 
-                  },
+                  // youtube: {
+                  //   options: { visual: false, show_artwork: false }, 
+                  // },
                 }}
               />
             ) : (

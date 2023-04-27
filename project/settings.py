@@ -34,6 +34,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# fix for youtube videos not appearing correctly when deployed to heroku
+SECURE_REFERRER_POLICY = "no-referrer"
+
 
 # Application definition
 
