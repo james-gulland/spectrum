@@ -42,8 +42,18 @@ const Add = () => {
 
       // check channel source of URL and add to state along with the URL
       const channelSource = checkChannelSource(url)
+      // setMixtapeFields({
+      //   ...mixtapeFields,
+      //   source_url: url,
+      //   channel_source: channelSource,
+      // })
+
       setMixtapeFields({
         ...mixtapeFields,
+        track_name: '',
+        artist_name: '',
+        genre: '',
+        start_time: null,
         source_url: url,
         channel_source: channelSource,
       })
@@ -55,18 +65,18 @@ const Add = () => {
     }
   }
 
-  const initialMixtapeFields = {
-    track_name: '',
-    artist_name: '',
-    genre: '',
-    channel_source: '',
-    source_url: '',
-    artwork_url: '',
-    start_time: null,
-    end_time: null,
-    release_date: null,
-    moods: [4], // add 'default' if none entered
-  }
+  // const initialMixtapeFields = {
+  //   track_name: '',
+  //   artist_name: '',
+  //   genre: '',
+  //   channel_source: '',
+  //   source_url: '',
+  //   artwork_url: '',
+  //   start_time: null,
+  //   end_time: null,
+  //   release_date: null,
+  //   moods: [4], // add 'default' if none entered
+  // }
 
   function checkChannelSource(url){
     if (url.includes('soundcloud.com')) {
@@ -118,10 +128,8 @@ const Add = () => {
     const getData = async () => {
       try {
         // take validated url and identifies the unique ID of the video, to pass through to API
-        console.log('url to validate ->', url)
         const youtubeUrl = new URL(validatedUrl)
         const videoId = youtubeUrl.searchParams.get('v')
-        console.log(videoId)
         
         // get the youtube API data from the unique ID
         const { data } = await axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${youTubeKey}&part=snippet,contentDetails,statistics,status`)
@@ -206,14 +214,17 @@ const Add = () => {
   // Once the player has loaded properly, and is ready, then we read and save the data to state.
   // allows user to load a new track also (thus validatedUrl changes and triggers)
   useEffect(() => {
+    console.log('useEffect hit')
     if (playerReady && validatedUrl) {
       if (mixtapeFields.channel_source === 'soundcloud'){
         handleSCLoad()
+        setPlayerReady(false)
       } else if (mixtapeFields.channel_source === 'youtube') {
         handleYTLoad()
+        setPlayerReady(false)
       }
     }
-  }, [playerReady, validatedUrl])
+  }, [playerReady])
 
   useEffect(() => {
     const marqueeTextElement = marqueeRef.current.querySelector('.marquee-text')

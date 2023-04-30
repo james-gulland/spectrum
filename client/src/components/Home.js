@@ -41,7 +41,6 @@ const Home = () => {
         if (isAuthenticated()){
           const { data } = await authenticated.get('/api/mixtapes/')
           setMixtapes(data)
-          console.log(data)
         }
       } catch (err) {
         console.log(err)
@@ -284,7 +283,7 @@ const Home = () => {
           })
         ) :
           <>
-            {console.log('No mixtapes found')}
+            {console.log('hello there!')}
           </>
         }
         {isAuthenticated() ?
