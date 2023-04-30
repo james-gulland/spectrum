@@ -112,7 +112,7 @@ const Add = () => {
   }
 
   // purpose of this function is to retrieve youtube metadata to store in state (and therefore to db once added)
-  // called once the ReactPlayer is ready (onReady) and if mixtape is a Soundcloud track
+  // called once the ReactPlayer is ready (onReady) and if mixtape is a youtube track
   // NOTE: this is the official youtube Data API and is really nice to use and powerful. They are open for developers :)
   function handleYTLoad() {
     const getData = async () => {
@@ -124,9 +124,7 @@ const Add = () => {
         console.log(videoId)
         
         // get the youtube API data from the unique ID
-        const { data } = await axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${youTubeKey}&part=snippet,contentDetails,statistics,status`)    
-        // const { data } = await axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${process.env.YOUTUBE_KEY}&part=snippet,contentDetails,statistics,status`)    
-        // console.log('youtube data success ->', data.items[0].snippet)
+        const { data } = await axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${youTubeKey}&part=snippet,contentDetails,statistics,status`)
         
         // store data to state
         const { items: [{ snippet }] } = data
