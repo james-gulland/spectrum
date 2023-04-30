@@ -220,14 +220,16 @@ const Home = () => {
             </div>
           </div>
           <div id="control-volume-container">
-            <div id="nav-container">
-              <div id="profile">
-                {isAuthenticated() ?
-                  <Link className="profile" to={`profile/${getUserID()}`} as={Link}><ion-icon name="person"></ion-icon></Link>
-                  :
-                  <Link className="profile" to={'hi'} as={Link}><ion-icon name="person"></ion-icon></Link>
-                }
-              </div>
+            <div id="nav-container">           
+              {isAuthenticated() ?
+                <Link className="profile" to={`profile/${getUserID()}`} as={Link}>
+                  <div id="profile"><ion-icon name="person"></ion-icon></div>
+                </Link>
+                :
+                <Link className="profile" to={'hi'} as={Link}>
+                  <div id="profile"><ion-icon name="person"></ion-icon></div>
+                </Link>
+              }
             </div>
             <div id="volume-container">
               <div className="volume">
