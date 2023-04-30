@@ -89,8 +89,7 @@ const Login = () => {
 
     } catch (err) {
       console.log('error', err.response.statusText)
-      setLedText(`Error! ${err.response.statusText}`)
-      // setLedText(err.response.data.message)
+      setLedText(`Error! ${err.response.statusText}. Make sure password is at least 8 chars long and your email is unqiue... you got this.`)
     }
     
   }
@@ -161,7 +160,7 @@ const Login = () => {
                   type="text"
                   id="username" 
                   name="username"
-                  placeholder="pick a nickname (100 chars)"
+                  placeholder="pick a nickname"
                   value={registerFields.username}
                   onChange={handleRegisterInputChange}
                 />
@@ -183,6 +182,7 @@ const Login = () => {
                   type="password"
                   id="password"
                   name="password"
+                  placeholder="min 8 characters, make it unique"
                   value={registerFields.password}
                   onChange={handleRegisterInputChange}
                 />
@@ -204,7 +204,6 @@ const Login = () => {
           )}
         </div>
         <div id="rightside-container">
-          {/* <Link id="home" className="profile" to={'/'} as={Link}><ion-icon name="home"></ion-icon></Link> */}
         </div>
       </div>
     </div>
