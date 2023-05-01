@@ -7,7 +7,8 @@ from rest_framework import status
 import jwt
 from datetime import datetime, timedelta
 from django.conf import settings
-
+from rest_framework.permissions import IsAuthenticated
+from .models import User
 from lib.exceptions import exceptions
 
 from django.contrib.auth import get_user_model
@@ -51,3 +52,27 @@ class LoginView(APIView):
         
         return Response({ 'message': f"Welcome back, {user_to_login.username}", 'token': token })
     
+class UserView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    # GET USER
+    # Endpoint: GET /api/auth/user/
+    @exceptions
+    def get(self, request):
+      user = request.user
+      user_data = {'username': user.username, 'email': user.email}
+      
+      return Response(user_data)
+    
+    # UPDATE USER
+    # Endpoint: PUT /api/auth/user/
+    @exceptions
+    def put(self, request):
+
+      user_to_change = User.objects.get(id=request.user.id)
+      serialized_user = UserSerializer(user_to_change, request.data, partial=True)
+      serialized_user.is_valid(raise_exception=True)
+
+      serialized_user.save()
+    
+      return Response(serialized_user.data)
