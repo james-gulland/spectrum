@@ -21,6 +21,11 @@
       display: block;
     }
   }
+
+  // PROFILE PAGE
+  #change-profile-container {
+    width: 100%;
+  }
 }
 
 // TABLETS
@@ -50,6 +55,10 @@
     }
   }
 
+  #login-led-container {
+    width: auto;
+  }
+
   #change-profile-container {
     display: block;
 
@@ -69,7 +78,7 @@
 }
 
 // MOBILE DEVICES
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 680px) {
   .container {
     margin: 1rem;
     padding: 0;

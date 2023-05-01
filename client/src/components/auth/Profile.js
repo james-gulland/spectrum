@@ -7,6 +7,12 @@ const Profile = () => {
   const marqueeRef = useRef(null)
   const [ledText, setLedText] = useState('Manage ur profile')
   const [mixtapes, setMixtapes] = useState([])
+  const [ userFields, setUserFields ] = useState({
+    username: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+  })
   
   const navigate = useNavigate()
 
@@ -16,8 +22,25 @@ const Profile = () => {
     navigate('/hi')
   }
 
-  function handleMoodChange() {
+  function handleUserInputChange(e) {
+    const { name, value } = e.target
+    setUserFields((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }))
+  }
 
+  const handleUserSubmit = async (e) => {
+    e.preventDefault()
+    console.log('change submit')
+    try {
+      const { data } = await authenticated.put('/api/auth/user/', userFields)
+      setLedText(`Updated for you, ${data.username}!`)
+    } catch (err) {
+      console.log('error', err.response.statusText)
+      setLedText(`Error! ${err.response.statusText}`)
+      // setLedText(err.response.data.message)
+    }
   }
 
   const displayMixtapes = () => {
@@ -68,7 +91,24 @@ const Profile = () => {
     deleteMixtape()
   }
 
-  // ! On Mount
+  // ! On Mount retrieve user data
+  useEffect(() => {
+    const getUserData = async () => {
+      try { 
+        const { data } = await authenticated.get('/api/auth/user/')
+        console.log('user data here', data)
+        setUserFields({
+          username: data.username,
+          email: data.email,
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    getUserData()
+  }, [])
+
+  // ! On Mount retrieve mixtapes
   useEffect(() => {
     const getData = async () => {
       try { 
@@ -81,6 +121,19 @@ const Profile = () => {
     }
     getData()
   }, [])
+
+  useEffect(() => {
+    const marqueeTextElement = marqueeRef.current.querySelector('.marquee-text')
+    const isOverflowing = marqueeTextElement.offsetWidth > marqueeRef.current.offsetWidth
+    // console.log(marqueeTextElement.offsetWidth, marqueeRef.current.offsetWidth)
+
+    if (isOverflowing) {
+      setTimeout(() => {
+        marqueeTextElement.classList.add('scroll')
+        // console.log(marqueeTextElement.offsetWidth, marqueeRef.current.offsetWidth)
+      }, 0)
+    }
+  })
 
   return (
     <>
@@ -111,7 +164,7 @@ const Profile = () => {
 
           {/* FORM CONTAINER */}
           <div id="change-user-container">
-            <form className="user-form">
+            <form className="user-form" onSubmit={handleUserSubmit}>
               <div>
                 <label htmlFor="username">Username:</label>
                 <input
@@ -119,8 +172,8 @@ const Profile = () => {
                   id="username" 
                   name="username"
                   placeholder="pick a nickname (100 chars)"
-                  // value={registerFields.username}
-                  // onChange={handleRegisterInputChange}
+                  value={userFields.username}
+                  onChange={handleUserInputChange}
                 />
               </div>
               <div>
@@ -130,43 +183,35 @@ const Profile = () => {
                   id="email"
                   name="email"
                   placeholder="email@address.here"
-                  // value={registerFields.email}
-                  // onChange={handleRegisterInputChange}
+                  value={userFields.email}
+                  onChange={handleUserInputChange}
+                />
+              </div>
+              <div>
+                <label htmlFor="password">Password:</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="enter your existing or new password"
+                  value={userFields.password}
+                  onChange={handleUserInputChange}
+                />
+              </div>
+              <div>
+                <label htmlFor="password_confirmation">Confirm Password:</label>
+                <input
+                  type="password"
+                  id="password_confirmation"
+                  name="password_confirmation"
+                  value={userFields.password_confirmation}
+                  onChange={handleUserInputChange}
                 />
               </div>
               <div className="login-register-button">
                 <button className="btn btn__primary" type="submit">Update</button>
               </div>
             </form>
-          </div>
-
-          <div id="change-mood-container">
-            <div id="mood-controls">
-              <div>Select your mood:</div>
-              <form id="mood-radio" onChange={handleMoodChange}>
-                <div className="radio-control main">
-                  
-                  <input type="radio" name="radio2" value="all" id="tab-0" defaultChecked/>
-                  <label htmlFor="tab-0" className="radio-control__0">
-                    <p>All</p></label>
-
-                  <input type="radio" name="radio2" value="focus" id="tab-1"/>
-                  <label htmlFor="tab-1" className="radio-control__1">
-                    <p>Focus</p></label>
-                  
-                  <input type="radio" name="radio2" value="chill" id="tab-2" />
-                  <label htmlFor="tab-2" className="radio-control__2">
-                    <p>Chill</p></label>
-                  
-                  <input type="radio" name="radio2" value="energy" id="tab-3" />
-                  <label htmlFor="tab-3" className="radio-control__3">
-                    <p>Energy</p></label>
-                  
-                  <div className="radio-control__color"></div>
-                  
-                </div>
-              </form>  
-            </div>
           </div>
         </div>
       </div>

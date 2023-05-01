@@ -84,6 +84,10 @@
   margin-left: 1rem;
 }
 
+#login-led-container {
+  width: 27rem;
+}
+
 #rightside-container {
   display: grid;
   justify-content: end;
@@ -97,7 +101,7 @@
 
   #progress-bar-container {
     width: 100%;
-    margin: 0 2em;
+    margin: 0 2em 0 0;
     position: relative;
 
     & #current-time-label {
@@ -254,10 +258,13 @@
 // PROFILE PAGE LAYOUT
 #change-profile-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
+  width: 50%;
+  margin: auto;
+  padding: 0 2rem;
 
   #change-user-container, #change-mood-container {
-    padding: 2rem;
+    padding: 2rem 0 0 0;
   }
 
   #mood-controls #mood-radio {
