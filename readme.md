@@ -116,6 +116,176 @@ Long-term goals would be to add more compatibility for other sources, including 
 
 I had to be realistic though, as I only had 1 week on a full-stack project, so I would have to park the long-term goals for another time, but bear in mind how I might build the back-end and front-end out to accommodate these in the future.
 
+<h2>Build Process</h2>
+
+**Day 1: setting up the dev environment**
+
+Initially, I spent the first day setting up the development environment and finessing some of the detail around the wireframe and the data models, once I had sign-off from the instructors.  This involved setting up a new git repo, syncing it locally, installing Django framework, and setting up a PostgreSQL database.  In the meantime, I also elaborated on the wireframes to include all user journeys and updated the ERD to highlight the data models required and their associated relationships.
+
+Once I was confident in the data that was needed for the project, I created a basic app and associated model for the mixtapes, created the database, managed the migrations, created a superuser, and made sure I could connect via localhost.  This was the underlying foundation for the project to build on.
+
+**Day 2 & 3: server-side work**
+
+I then expanded on the foundations by creating some test mixtape data in the admin portal that I could query.  I expanded to include apps for the mood and user models,, which I then migrated again.
+
+Example of the mixtape model:
+
+![My Images](client/src/images/image2.png)
+
+I then created the views and urls, so that I could start to do some initial basic testing on the data flow.  Initially, I just started with a GET all for the /api/mixtapes/ view and tested the request in Insomnia to make sure the data comes back, and then quickly moved on to expanding the GET single id of mixtape, as well as POST, PUT and DELETE methods.
+
+I then created a populated serializer to connect the many-to-many relationship with the mood and mixtapes tables, so that I could show a populated view of moods when querying a single mixtape or all.
+
+I swiftly moved onto creating the login and register routes and extended the authentication with secure routes.  This included an integration with JSON Web Tokens (JWT) which I then tested by passing the token data as part of the request in the header in Insomnia.  By now, I had a really good basic way of testing the various request methods in Insomnia, which looked like this:
+
+![My Images](client/src/images/image14.png)
+
+I added exceptions in the lib file to capture errors better when I was testing.  Within the first 3 days, I had pretty much the majority of the server-side work completed, with all request methods tested thoroughly to make sure they were working as intended.  It went a lot more smoothly than I had initially thought!
+
+**Days 4, 5, & 6: front-end work**
+
+The following days were about creating the front-end and then linking up with the back-end work I had previously done.  I installed React and all the necessary packages to set up the client folders, and then got the data being fed into the app using an axios GET request. 
+
+I then set up the structure of the homepage JSX and started to map out some of the data on a grid.  I had found some really awesome UI components on codepen that I wanted to use as part of the retro / modern aesthetics.  This included an LED screen and some neumorphic-designed components that I started to lay down on the homepage to control the audio:
+
+![My Images](client/src/images/image12.png)
+
+At this point, I was beginning to be really happy with the design ethos of the app, even though a few of the controls needed additional styling.  I built the SASS in a way that is very reusable, and if I wanted to change the colour scheme through the UI, I could do so by changing a few global root variables, as I referenced these throughout the SASS:
+
+```
+:root {
+ --primary-light: #8abdff;
+ --primary: #6d5dfc;
+ --primary-dark: #5b0eeb;
+  --white: #FFFFFF;
+ --greyLight-1: #E4EBF5;
+ --greyLight-2: #c8d0e7;
+ --greyLight-3: #bec8e4;
+ --greyDark: #9baacf;
+}
+
+
+$container-shadow: .8rem .8rem 1.4rem var(--greyLight-2),
+-.2rem -.2rem 1.8rem var(--white);
+$shadow: .3rem .3rem .6rem var(--greyLight-2),
+-.2rem -.2rem .5rem var(--white);
+$inner-shadow: inset .2rem .2rem .5rem var(--greyLight-2),
+inset -.2rem -.2rem .5rem var(--white);
+
+
+$brand-font: "AtAmiga-Regular";
+// $main-font: "Share Tech Mono", monospace;
+$main-font: 'Smooch Sans', sans-serif;
+```
+
+I also created the user login and registration flow on 1 page (rather than separate routes) which worked out really well:
+
+![My Images](client/src/images/image8.png)
+
+I started to use the LED screen to inject a bit of personality into the app, like an AI speaking to the user, and it also doubled up like a console log, as I showed the error states also!
+
+Next up was adding the mixtape to your profile page, and this was the tricky part as it meant integrating with Soundcloud and Youtube APIs.  When loading the URLs, I had a function that validated to make sure the URL was in the format of a Soundcloud, Youtube or Mixcloud link. I learnt a lot about using Regex to validate the input URLs, and then if validate, would set in the mixtapeFields state and update the LED:
+
+```
+// function called when the mixtape is loaded via 'Load' button
+ // it will checked to make sure the URL is valid. if ok, sets in state for ReactPlayer to use, otherwise throws an error.
+ function handleLoadClick() {
+   // setMixtapeFields(initialMixtapeFields)
+   const urlRegex = /^(?:(?:http|https):\/\/)?(?:www\.)?(?:soundcloud\.com|youtu(?:be\.com|\.be)|mixcloud\.com)\/.+$/   
+   const isValidInputUrl = urlRegex.test(url)
+
+
+   // console.log('defining url', isValidInputUrl)
+   if (isValidInputUrl){
+
+
+     // set valid URL to show in ReactPlayer
+     setValidatedUrl(url)
+
+
+     // check channel source of URL and add to state along with the URL
+     const channelSource = checkChannelSource(url)
+     setMixtapeFields({
+       ...mixtapeFields,
+       source_url: url,
+       channel_source: channelSource,
+     })
+    
+     // set success message
+     setLedText('Sick mix ;-)')
+   } else {
+     setLedText('Please enter correct URL...')
+   }
+ }
+```
+
+I had a separate function to handle loading the mixtape into the react-player for preview and details into state, therefore pre-populating the fields from API data.  This is an example of handling a youtube track:
+
+```
+// purpose of this function is to retrieve youtube metadata to store in state (and therefore to db once added)
+ // called once the ReactPlayer is ready (onReady) and if mixtape is a youtube track
+ // NOTE: this is the official youtube Data API and is really nice to use and powerful. They are open for developers :)
+ function handleYTLoad() {
+   const getData = async () => {
+     try {
+       // take validated url and identifies the unique ID of the video, to pass through to API
+       console.log('url to validate ->', url)
+       const youtubeUrl = new URL(validatedUrl)
+       const videoId = youtubeUrl.searchParams.get('v')
+       console.log(videoId)
+      
+       // get the youtube API data from the unique ID
+       const { data } = await axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${youTubeKey}&part=snippet,contentDetails,statistics,status`)
+      
+       // store data to state
+       const { items: [{ snippet }] } = data
+       setMixtapeFields({
+         ...mixtapeFields,
+         track_name: snippet.title,
+         artist_name: snippet.channelTitle,
+         // genre: snippet.genre,
+         artwork_url: snippet.thumbnails.medium.url,
+         // end_time: snippet.duration,
+       })
+
+
+     } catch (err) {
+       console.log('didnt load data!', err)
+     }
+
+
+   }
+   getData()
+ }
+```
+
+<!-- Days 7 and 8 -->
+
+The final two days were wrapping things up and putting the final touches to the application, and doing extensive testing to ensure it was working as expected.  This was quite a mad rush towards the finishing line!
+
+This included things such as:
+- Add the filtering of mixtapes according to mood
+- Changing the ‘GET all’ method to just GET mixtapes created by the owner
+- Adding a profile page with the ability to delete mixtapes from their profile
+- Improving mobile responsive breakpoints
+- Additional styling of the volume and progress bars, adding start and end time functionality
+- Additional error states
+- Adding a favicon, improving font legibility and design tweaks
+
+<h3>Final result</h3>
+
+The homepage:
+
+![My Images](client/src/images/image6.gif)
+
+Adding a mixtape (fields being pre-populated by the APIs once loaded):
+
+![My Images](client/src/images/image10.png)
+
+Managing your profile (updating details and deleting tracks):
+
+![My Images](client/src/images/image4.png)
+
 
 
 
