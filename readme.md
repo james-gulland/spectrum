@@ -351,6 +351,40 @@ useEffect(() => {
  }, [])
 ```
 
+<h2>Wins</h2>
+
+I am massively proud of what I achieved as a solo project in a week!  I absolutely love the design aesthetic that I created, and lots of fun and playful character to the app.  It got a great reception from everyone when I presented it and a lot of praise from my instructor.
+
+It was great solidifying knowledge and experience using Python, which I love as a language, as well as the Django framework and PostgreSQL database.  
+
+I really feel like I have a good, solid foundational understanding in the underlying principles of front-end and back-end, and I can’t wait to get stuck into this more in the future!
+
+<h2>Key Learnings</h2>
+
+One of the major wins for me personally, was being able to take all the learnings from the course over the past 3 months; from the front-end to the back-end, and then be able to connect all the dots together in a full-stack way.
+
+Going solo for the final project was definitely both a blessing and a curse, as it meant I missed out on some of the perks of collaborative work, such as bouncing ideas off team mates and sorting out any hurdles much sooner. On the flip side I'm happy that I decided to trust my ability to build a full-stack app on my own, as all the challenges I faced and was able to overcome in this project helped boost my confidence as a developer.  
+
+I really love working across the full-stack.  I really feel like I learnt a lot on this project, everything from setting up the database models and populating with data, to user authentication and secure routes, to integrating with 3rd party APIs, to creating a dynamic and mobile-responsive front-end using React and SASS. I especially learnt a lot about how tricky it can be relying on 3rd party services to provide data in the way I wanted it, and also to be aware of compatibility issues when deploying to heroku.
+
+I enjoyed every part of this project and can’t wait to continue development!
+
+<h2>Bugs</h2>
+
+Currently, the update user profile details and selecting default mood in the profile page is not working as intended, but I plan to update this. 
+
+It is possible to click on the youtube video to expand the video but then it does break the play function in the spectrum app, so I want to fix this at some point also.
+
+In the Add mixtape section, if you add a mixtape but then load another one, occasionally it has problems reading the new track data, which I plan to fix as well.
+
+<h2>Future Improvements</h2>
+
+- Ability to update user profile details and track details from the Profile page (UPDATE - this is now live!)
+- Add Mixcloud functionality
+- Add a more mobile focused and optimised experience.  Currently it is mobile responsive but I think a dedicated version for mobiles would be better (with swiping gestures etc)
+- Refactor the code a lot, so the code is more reusable.
+- Add a visual waveform generator - so instead of a progress bar, it shows the waveform of the mix instead (a bit like soundcloud)
+- Ability to change the UI colour set by mood.  I have this set in the database already just need to implement on the front-end.
 
 
 
