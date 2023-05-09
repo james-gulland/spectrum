@@ -286,6 +286,71 @@ Managing your profile (updating details and deleting tracks):
 
 ![My Images](client/src/images/image4.png)
 
+<h2>Challenges</h2>
+
+**1st challenge:**  I think the hardest challenge was integrating properly with the third-party dependencies, as I was at the mercy of the provided APIs.  Youtube was less of an issue, but the way I had to integrate with Soundcloud’s Widget API felt a little hacky, and not ideal.  One of the problems encountered when I was trying to load in the Soundcloud track data when adding a mixtape, was that the data was not ready in the react-player before it could be ingested in the fields.  The widget was slow in processing the data.  I got around this by using the ‘onReady’ method provided by the react-player itself, and then triggering the useEffect when the player was ready or not:
+
+```
+<ReactPlayer className="react-player"
+  url={validatedUrl}
+  onReady={() => setPlayerReady(true)}
+  // ref={reactPlayerRef}
+  volume={0.5}
+  width='100%'
+  height='100%'
+  config={{
+    youtube: {
+      options: { visual: false, show_artwork: false },
+    },
+  }}
+/>
+```
+
+```
+// Once the player has loaded properly, and is ready, then we read and save the data to state.
+ // allows user to load a new track also (thus validatedUrl changes and triggers)
+ useEffect(() => {
+   if (playerReady && validatedUrl) {
+     if (mixtapeFields.channel_source === 'soundcloud'){
+       handleSCLoad()
+     } else if (mixtapeFields.channel_source === 'youtube') {
+       handleYTLoad()
+     }
+   }
+ }, [playerReady, validatedUrl])
+ ```
+ 
+**2nd challenge:**  When deploying to heroku, there was an issue with playing Youtube videos across the site, which took a while to resolve. When you add an embedded iframe for a youtube video, the referrer (the host origin where the video is being played) is sent to youtube, by the scripts inside the iframe (the embed url gets a new page which brings all the required scripts). If the server is setting a referrer policy which prevents the communication about the referrer, youtube rejects the play request and responds with 204 - no content.  Fortunately, I found a fix for this on stack overflow which fixed it, although it took quite a lot of research in finding a solution for this one!
+
+![My Images](client/src/images/image7.png)
+```
+# fix for youtube videos not appearing correctly when deployed to heroku
+SECURE_REFERRER_POLICY = "no-referrer-when-downgrade"
+```
+
+**3rd challenge:** I ran into an issue with authentication when I changed from displaying all mixtapes (GET all) to only showing mixtapes by owner only.  I got a Forbidden: /api/mixtapes/ error message: 
+
+![My Images](client/src/images/image5.png)
+
+When I tried in Insomnia, it worked perfectly by adding an authorization header, however in the app itself, it didn’t work. It turns out that I forgot to add the appropriate authentication in the app request itself, and instead was doing a standard axios request.  Changing the request for an authenticated one fixed it instantly:
+
+```
+useEffect(() => {
+   const getData = async () => {
+     try {
+       if (isAuthenticated()){
+         const { data } = await authenticated.get('/api/mixtapes/')
+         setMixtapes(data)
+         console.log(data)
+       }
+     } catch (err) {
+       console.log(err)
+     }
+   }
+   getData()
+ }, [])
+```
+
 
 
 
